@@ -1,0 +1,3 @@
+[submodule "proz-backend-crm~"]
+	path = proz-backend-crm~
+	url = git@github.com:luizmrd/proz-backend-crm.git
