@@ -1,0 +1,56 @@
+package com.luizmrd.crm.database.model;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+@Table(name = "aluno")
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@Builder
+public class AlunoEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    @Column(nullable = false)
+    private String nome;
+    @Column(nullable = false)
+    private String cpf;
+    @Column(nullable = false,name = "data_nascimento")
+    private LocalDate dataNascimento;
+    @Column(nullable = false)
+    private String telefone;
+    @Column(nullable = false)
+    private String email;
+
+    private String codigoAcesso;
+
+    @ManyToOne
+    @JoinColumn(name = "plano_id")
+    private PlanoEntity plano;
+
+    @Column(nullable = false)
+    private BigDecimal valorMensal;
+
+    private Integer diaVencimento;
+
+    @OneToOne
+    @JoinColumn(name = "contrato_id")
+    private ContratoEntity contrato;
+
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HistoricoPagamentoEntity> historicoPagamento = new ArrayList<>();
+
+
+
+
+
+
+}
