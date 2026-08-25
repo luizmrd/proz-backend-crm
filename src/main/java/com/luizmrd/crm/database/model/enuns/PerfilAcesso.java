@@ -1,8 +1,8 @@
 package com.luizmrd.crm.database.model.enuns;
 
 public enum PerfilAcesso {
-    ADMINISTRADOR,
-    RECEPCIONISTA,
-    PROFESSOR
+    ROLES_ADMINISTRADOR,
+    ROLES_RECEPCIONISTA,
+    ROLES_PROFESSOR
 
 }
