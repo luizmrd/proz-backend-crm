@@ -1,5 +1,8 @@
 package com.luizmrd.crm.database.model;
 
+import com.luizmrd.crm.database.model.enuns.SexoEnum;
+import com.luizmrd.crm.database.model.enuns.StatusEnum;
+import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,7 +24,7 @@ public class AlunoEntity {
     private Long id;
     @Column(nullable = false)
     private String nome;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String cpf;
     @Column(nullable = false,name = "data_nascimento")
     private LocalDate dataNascimento;
@@ -30,7 +33,13 @@ public class AlunoEntity {
     @Column(nullable = false)
     private String email;
 
+    private SexoEnum sexo;
+    @Column(unique = true)
     private String codigoAcesso;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private StatusEnum statusEnum = StatusEnum.ATIVO;
 
     @ManyToOne
     @JoinColumn(name = "plano_id")
@@ -40,6 +49,8 @@ public class AlunoEntity {
     private BigDecimal valorMensal;
 
     private Integer diaVencimento;
+
+    private StatusPagamentoEnum statusPagamento;
 
     @OneToOne
     @JoinColumn(name = "contrato_id")

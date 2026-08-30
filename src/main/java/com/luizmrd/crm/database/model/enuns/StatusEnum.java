@@ -1,6 +1,6 @@
 package com.luizmrd.crm.database.model.enuns;
 
-public enum Status {
+public enum StatusEnum {
     ATIVO,
     INATIVO
 

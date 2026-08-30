@@ -1,6 +1,6 @@
 package com.luizmrd.crm.database.model.enuns;
 
-public enum StatusPagamento {
+public enum StatusPagamentoEnum {
     PAGO,
     PENDENTE,
     ATRASADO

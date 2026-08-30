@@ -1,12 +1,12 @@
 package com.luizmrd.crm.controller;
 
 import com.luizmrd.crm.database.model.AlunoEntity;
-import com.luizmrd.crm.dto.AlunoFiltroRequest;
+
+import com.luizmrd.crm.dto.AlunoFiltroRequestDto;
+import com.luizmrd.crm.dto.AlunoRequestDto;
 import com.luizmrd.crm.service.AlunoService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +21,13 @@ public class AlunoController {
     }
 
     @GetMapping
-    public List<AlunoEntity> bucarAlunosComFiltro(@RequestParam AlunoFiltroRequest filtro){
+    public List<AlunoEntity> bucarAlunosComFiltro(@RequestParam AlunoFiltroRequestDto filtro){
         return alunoService.buscarAlunosFiltro(filtro);
+    }
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public void criarAluno(@RequestBody AlunoRequestDto aluno){
+        alunoService.criarAluno(aluno);
     }
 
 }

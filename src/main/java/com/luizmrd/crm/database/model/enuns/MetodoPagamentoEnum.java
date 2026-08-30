@@ -1,6 +1,6 @@
 package com.luizmrd.crm.database.model.enuns;
 
-public enum MetodoPagamento {
+public enum MetodoPagamentoEnum {
     PIX,
     BOLETO,
     CARTAO_DE_CREDITO,

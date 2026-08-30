@@ -1,7 +1,7 @@
 package com.luizmrd.crm.database.model;
 
-import com.luizmrd.crm.database.model.enuns.MetodoPagamento;
-import com.luizmrd.crm.database.model.enuns.Status;
+import com.luizmrd.crm.database.model.enuns.MetodoPagamentoEnum;
+import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,9 +28,9 @@ public class RecebimentoEntity {
     private LocalDateTime dataPagamento;
 
     @Column(nullable = false,name = "metodo_pagamento")
-    private MetodoPagamento metodoPagamento;
+    private MetodoPagamentoEnum metodoPagamento;
     @Column(nullable = false)
-    private Status status;
+    private StatusEnum statusEnum;
     @Column(nullable = false)
     private String recibo;
 

@@ -1,14 +1,14 @@
 package com.luizmrd.crm.service.especificacao;
 
 import com.luizmrd.crm.database.model.AlunoEntity;
-import com.luizmrd.crm.dto.AlunoFiltroRequest;
+import com.luizmrd.crm.dto.AlunoFiltroRequestDto;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Locale;
 
 public class AlunoEspecificacao {
 
-    public static Specification<AlunoEntity> comFiltro(AlunoFiltroRequest filtro){
+    public static Specification<AlunoEntity> comFiltro(AlunoFiltroRequestDto filtro){
         return Specification
                 .where(statusIgual(filtro.status()))
                 .and(statusPagamentoIgual(filtro.statusPagamento()))

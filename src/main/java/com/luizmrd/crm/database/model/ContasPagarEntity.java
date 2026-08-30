@@ -1,7 +1,7 @@
 package com.luizmrd.crm.database.model;
 
-import com.luizmrd.crm.database.model.enuns.CategoriaContas;
-import com.luizmrd.crm.database.model.enuns.Status;
+import com.luizmrd.crm.database.model.enuns.CategoriaContasEnum;
+import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,11 +24,11 @@ public class ContasPagarEntity {
     private Long id;
     private String descricao;
     @Column(nullable = false)
-    private CategoriaContas categoria;
+    private CategoriaContasEnum categoria;
     @Column(nullable = false)
     private BigDecimal valor;
     @Column(nullable = false, name = "data_vencimento")
     private LocalDate dataVencimento;
     @Column(nullable = false)
-    private Status status;
+    private StatusEnum statusEnum;
 }

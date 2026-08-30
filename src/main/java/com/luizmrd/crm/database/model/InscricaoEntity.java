@@ -1,6 +1,6 @@
 package com.luizmrd.crm.database.model;
 
-import com.luizmrd.crm.database.model.enuns.PresencaStatus;
+import com.luizmrd.crm.database.model.enuns.PresencaStatusEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +18,7 @@ public class InscricaoEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(nullable = false,name = "presenca_status")
-    private PresencaStatus presencaStatus;
+    private PresencaStatusEnum presencaStatus;
     @Column(nullable = false,name = "data_inscricao")
     private LocalDate dataInscricao;
 

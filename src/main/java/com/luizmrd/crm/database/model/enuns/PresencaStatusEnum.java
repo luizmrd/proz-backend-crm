@@ -1,6 +1,6 @@
 package com.luizmrd.crm.database.model.enuns;
 
-public enum PresencaStatus {
+public enum PresencaStatusEnum {
     PRESENTE,
     AUSENTE,
     ACOMPANHADO

@@ -1,6 +1,6 @@
 package com.luizmrd.crm.database.model.enuns;
 
-public enum CategoriaContas {
+public enum CategoriaContasEnum {
   ENERGIA,
   AGUA,
   INTERNET,
