@@ -32,6 +32,12 @@ public class AlunoService {
         return alunoRepository.findAll(AlunoEspecificacao.comFiltro(filtro));
     }
 
+    public AlunoEntity buscarAlunoId(Long id){
+       return alunoRepository.findById(id)
+               .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+    }
+
+
     public void criarAluno(AlunoRequestDto alunoRequestDto){
        if(alunoRepository.existsByCpf(alunoRequestDto.cpf())){
            throw  new ResourceNotFoundException("Cpf já em uso!");

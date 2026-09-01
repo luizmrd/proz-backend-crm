@@ -24,6 +24,11 @@ public class AlunoController {
     public List<AlunoEntity> bucarAlunosComFiltro(@RequestParam AlunoFiltroRequestDto filtro){
         return alunoService.buscarAlunosFiltro(filtro);
     }
+    @GetMapping("/{id}")
+    public AlunoEntity bucarAlunosId(@PathVariable Long id){
+        return alunoService.buscarAlunoId(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void criarAluno(@RequestBody AlunoRequestDto aluno){
