@@ -2,8 +2,10 @@ package com.luizmrd.crm.service;
 
 import com.luizmrd.crm.config.CodigoAcessoCurto;
 import com.luizmrd.crm.database.model.AlunoEntity;
+import com.luizmrd.crm.database.model.PlanoEntity;
 import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
+import com.luizmrd.crm.database.repository.IPlanoRepository;
 import com.luizmrd.crm.dto.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.AlunoRequestDto;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
@@ -17,10 +19,12 @@ public class AlunoService {
     public final IAlunoRepository alunoRepository;
 
     public final CodigoAcessoCurto codigoAcessoCurto;
+    public final IPlanoRepository planoRepository;
 
-    public AlunoService(IAlunoRepository alunoRepository,CodigoAcessoCurto codigoAcessoCurto){
+    public AlunoService(IAlunoRepository alunoRepository,CodigoAcessoCurto codigoAcessoCurto, IPlanoRepository planoRepository){
         this.alunoRepository = alunoRepository;
         this.codigoAcessoCurto = codigoAcessoCurto;
+        this.planoRepository = planoRepository;
     }
 
 
@@ -35,6 +39,9 @@ public class AlunoService {
        if(alunoRepository.existsByEmail(alunoRequestDto.email())){
            throw  new ResourceNotFoundException("Email já em uso!");
        }
+       PlanoEntity plano = planoRepository.findById(alunoRequestDto.plano())
+               .orElseThrow(() -> new ResourceNotFoundException("Plano não encontrado")
+               );
 
        String cod;
        do {
@@ -44,6 +51,7 @@ public class AlunoService {
            System.out.println("Já existe? " +
                    alunoRepository.existsByCodigoAcesso(cod));
        }while (alunoRepository.existsByCodigoAcesso(cod));
+
        String codigoGerado = cod;
 
        alunoRepository.save(
@@ -55,8 +63,8 @@ public class AlunoService {
                 .telefone(alunoRequestDto.telefone())
                 .email(alunoRequestDto.email())
                 .codigoAcesso(cod)
-                       .plano(alunoRequestDto.plano())
-                       .valorMensal(alunoRequestDto.valorMensal())
+                       .plano(plano)
+                       .valorMensal(plano.getValorPadrao())
                        .statusPagamento(alunoRequestDto.statusPagamento())
                 .build()
         );

@@ -15,8 +15,7 @@ LocalDate dataNacimento,
 SexoEnum sexo,
 String telefone,
 String email,
-PlanoEntity plano,
-BigDecimal valorMensal,
+Long plano,
 StatusPagamentoEnum statusPagamento
 ){
 }
