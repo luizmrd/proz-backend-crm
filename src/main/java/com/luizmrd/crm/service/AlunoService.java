@@ -6,10 +6,12 @@ import com.luizmrd.crm.database.model.PlanoEntity;
 import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IPlanoRepository;
+import com.luizmrd.crm.dto.AlunoAtualizarRequestDto;
 import com.luizmrd.crm.dto.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.AlunoRequestDto;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.service.especificacao.AlunoEspecificacao;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +37,22 @@ public class AlunoService {
     public AlunoEntity buscarAlunoId(Long id){
        return alunoRepository.findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+    }
+
+    @Transactional
+    public  AlunoEntity atualizaAluno(Long id, AlunoAtualizarRequestDto alunoAtualizarRequestDto){
+        AlunoEntity aluno = alunoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+
+        aluno.setNome(alunoAtualizarRequestDto.nome());
+        aluno.setCpf(alunoAtualizarRequestDto.cpf());
+        aluno.setDataNascimento(alunoAtualizarRequestDto.dataNacimento());
+        aluno.setSexo(alunoAtualizarRequestDto.sexo());
+        aluno.setTelefone(alunoAtualizarRequestDto.telefone());
+        aluno.setEmail(alunoAtualizarRequestDto.email());
+
+        return alunoRepository.save(aluno);
+
     }
 
 
