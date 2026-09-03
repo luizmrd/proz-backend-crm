@@ -23,6 +23,12 @@ public class ContratoEntity {
     private AlunoEntity aluno;
     @Column(nullable = false,name = "aceite_contrato")
     private Boolean aceiteContrato;
+
+    @Column(nullable = false,name = "termos_contrato", length = 10000)
+    private String termosContrato;
+
+    private Integer diaVencimentoMensalidade;
+
     @Column(nullable = false,name = "assinatura_digital")
     private String assinaturaDigital;
     @Column(nullable = false,name = "aceito_em")

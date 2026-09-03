@@ -1,5 +1,6 @@
 package com.luizmrd.crm.database.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.luizmrd.crm.database.model.enuns.SexoEnum;
 import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
@@ -51,7 +52,7 @@ public class AlunoEntity {
     private Integer diaVencimento;
 
     private StatusPagamentoEnum statusPagamento;
-
+    @JsonIgnore
     @OneToOne
     @JoinColumn(name = "contrato_id")
     private ContratoEntity contrato;

@@ -3,10 +3,9 @@ package com.luizmrd.crm.service;
 import com.luizmrd.crm.config.CodigoAcessoCurto;
 import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.PlanoEntity;
-import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IPlanoRepository;
-import com.luizmrd.crm.dto.AlunoAtualizarRequestDto;
+import com.luizmrd.crm.dto.AlunoPerfilAtualizarRequestDto;
 import com.luizmrd.crm.dto.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.AlunoRequestDto;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
@@ -40,16 +39,16 @@ public class AlunoService {
     }
 
     @Transactional
-    public  AlunoEntity atualizaAluno(Long id, AlunoAtualizarRequestDto alunoAtualizarRequestDto){
+    public  AlunoEntity atualizaAluno(Long id, AlunoPerfilAtualizarRequestDto alunoPerfilAtualizarRequestDto){
         AlunoEntity aluno = alunoRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
 
-        aluno.setNome(alunoAtualizarRequestDto.nome());
-        aluno.setCpf(alunoAtualizarRequestDto.cpf());
-        aluno.setDataNascimento(alunoAtualizarRequestDto.dataNacimento());
-        aluno.setSexo(alunoAtualizarRequestDto.sexo());
-        aluno.setTelefone(alunoAtualizarRequestDto.telefone());
-        aluno.setEmail(alunoAtualizarRequestDto.email());
+        aluno.setNome(alunoPerfilAtualizarRequestDto.nome());
+        aluno.setCpf(alunoPerfilAtualizarRequestDto.cpf());
+        aluno.setDataNascimento(alunoPerfilAtualizarRequestDto.dataNacimento());
+        aluno.setSexo(alunoPerfilAtualizarRequestDto.sexo());
+        aluno.setTelefone(alunoPerfilAtualizarRequestDto.telefone());
+        aluno.setEmail(alunoPerfilAtualizarRequestDto.email());
 
         return alunoRepository.save(aluno);
 
@@ -71,7 +70,6 @@ public class AlunoService {
        do {
            cod = codigoAcessoCurto.gerar(8);
 
-           System.out.println("Código gerado: " + cod);
            System.out.println("Já existe? " +
                    alunoRepository.existsByCodigoAcesso(cod));
        }while (alunoRepository.existsByCodigoAcesso(cod));
