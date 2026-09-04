@@ -1,6 +1,7 @@
 package com.luizmrd.crm.database.model;
 
 import com.luizmrd.crm.database.model.enuns.StatusEnum;
+import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,7 +29,7 @@ public class HistoricoPagamentoEntity {
     @Column(nullable = false)
     private BigDecimal valor;
     @Column(nullable = false)
-    private StatusEnum statusEnum;
+    private StatusPagamentoEnum statusPagamento;
     @Column(nullable = false)
     private String recibo;
 
