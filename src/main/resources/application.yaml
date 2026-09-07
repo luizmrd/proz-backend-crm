@@ -14,22 +14,3 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
-
-
-        spring:
-          application:
-            name: Sistema-gestao-eventos
-          datasource:
-            url: jdbc:postgresql://127.0.0.1:5432/db_eventos?createDatabaseIfNotExist=true
-            username: ${DATABASE_USER}
-            password: ${DATABASE_PASS}
-            driver-class-name: org.postgresql.Driver
-          jpa:
-            hibernate:
-              ddl-auto: update
-            show-sql: true
-            properties:
-              hibernate:
-                format_sql: true
-                dialect: org.hibernate.dialect.PostgreSQLDialect
