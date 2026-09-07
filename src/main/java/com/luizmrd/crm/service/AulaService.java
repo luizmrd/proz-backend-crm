@@ -34,4 +34,16 @@ public class AulaService {
                 .orElseThrow(() -> new RuntimeException("Aula não encontrada"));
     }
 
+    public void atualizarAula(Long id, AulaRequestDto aula) {
+        AulaEntity aulaEntity = bucarAulaPorId(id);
+        aulaEntity.setModalidade(aula.modalidade());
+        aulaEntity.setData(aula.data());
+        aulaEntity.setDataInicio(aula.dataInicio());
+        aulaEntity.setDataFim(aula.dataFim());
+        aulaEntity.setProfessor(aula.professor());
+        aulaEntity.setLimiteVagas(aula.limiteVagas());
+        aulaEntity.setSala(aula.sala());
+        aulaRepository.save(aulaEntity);
+    }
+
 }

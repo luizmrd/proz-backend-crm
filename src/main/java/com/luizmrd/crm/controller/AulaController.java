@@ -35,6 +35,10 @@ public class AulaController {
     public AulaEntity bucarAulaPorId(@RequestParam Long id){
         return aulaService.bucarAulaPorId(id);
     }
+    @PatchMapping
+    public void atualizarAula(@RequestParam Long id, @RequestBody AulaRequestDto aula){
+        aulaService.atualizarAula(id, aula);
+    }
 
 
 }
