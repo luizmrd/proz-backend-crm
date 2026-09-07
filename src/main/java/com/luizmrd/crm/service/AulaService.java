@@ -2,8 +2,10 @@ package com.luizmrd.crm.service;
 
 
 import com.luizmrd.crm.database.model.AulaEntity;
+import com.luizmrd.crm.database.model.enuns.StatusAula;
 import com.luizmrd.crm.database.repository.IAulaRepository;
 import com.luizmrd.crm.dto.AulaRequestDto;
+import com.luizmrd.crm.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,6 +45,13 @@ public class AulaService {
         aulaEntity.setProfessor(aula.professor());
         aulaEntity.setLimiteVagas(aula.limiteVagas());
         aulaEntity.setSala(aula.sala());
+        aulaRepository.save(aulaEntity);
+    }
+
+    public void cancelarAula(Long id) {
+        AulaEntity aulaEntity = aulaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada"));
+        aulaEntity.setStatusAula(StatusAula.CANCELADA);
         aulaRepository.save(aulaEntity);
     }
 

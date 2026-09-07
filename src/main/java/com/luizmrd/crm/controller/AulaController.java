@@ -36,9 +36,17 @@ public class AulaController {
         return aulaService.bucarAulaPorId(id);
     }
     @PatchMapping
+    @ResponseStatus
     public void atualizarAula(@RequestParam Long id, @RequestBody AulaRequestDto aula){
         aulaService.atualizarAula(id, aula);
     }
+
+    @PostMapping("/cancelar")
+    public void cancelarAula(@RequestParam Long id){
+        aulaService.cancelarAula(id);
+    }
+
+
 
 
 }

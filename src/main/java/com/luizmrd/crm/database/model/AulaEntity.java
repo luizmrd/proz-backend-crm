@@ -1,5 +1,6 @@
 package com.luizmrd.crm.database.model;
 
+import com.luizmrd.crm.database.model.enuns.StatusAula;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,5 +29,8 @@ public class AulaEntity {
     @Column(name = "limite_vagas")
     private Integer limiteVagas;
     private String sala;
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private StatusAula statusAula = StatusAula.AGENDADA;
 
 }
