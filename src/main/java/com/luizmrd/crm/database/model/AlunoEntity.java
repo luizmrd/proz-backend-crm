@@ -56,12 +56,14 @@ public class AlunoEntity {
     @OneToOne
     @JoinColumn(name = "contrato_id")
     private ContratoEntity contrato;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HistoricoPagamentoEntity> historicoPagamento = new ArrayList<>();
 
 
-
+    @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<InscricaoEntity> inscricoes = new ArrayList<>();
 
 
 

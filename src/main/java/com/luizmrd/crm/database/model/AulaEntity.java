@@ -6,6 +6,8 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "aula")
 @Entity
@@ -32,5 +34,9 @@ public class AulaEntity {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private StatusAula statusAula = StatusAula.AGENDADA;
+
+    @OneToMany(mappedBy = "aula", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<InscricaoEntity> inscricoes = new ArrayList<>();
 
 }

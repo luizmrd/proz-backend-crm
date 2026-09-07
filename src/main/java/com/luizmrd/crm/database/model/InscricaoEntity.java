@@ -17,8 +17,11 @@ public class InscricaoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @Column(nullable = false,name = "presenca_status")
+    @Enumerated(EnumType.STRING)
     private PresencaStatusEnum presencaStatus;
+
     @Column(nullable = false,name = "data_inscricao")
     private LocalDate dataInscricao;
 

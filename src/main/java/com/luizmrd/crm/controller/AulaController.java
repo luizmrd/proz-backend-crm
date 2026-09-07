@@ -35,8 +35,8 @@ public class AulaController {
     public AulaEntity bucarAulaPorId(@RequestParam Long id){
         return aulaService.bucarAulaPorId(id);
     }
+
     @PatchMapping
-    @ResponseStatus
     public void atualizarAula(@RequestParam Long id, @RequestBody AulaRequestDto aula){
         aulaService.atualizarAula(id, aula);
     }
@@ -47,6 +47,10 @@ public class AulaController {
     }
 
 
-
+    @PostMapping("/inscrever")
+    @ResponseStatus(HttpStatus.OK)
+    public void inscreverAluno(@RequestParam Long aulaId, @RequestParam Long alunoId) {
+        aulaService.inscreverAlunoNaAula(aulaId, alunoId);
+    }
 
 }
