@@ -2,13 +2,12 @@ package com.luizmrd.crm.controller;
 
 import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.AulaEntity;
-import com.luizmrd.crm.dto.AlunoFiltroRequestDto;
-import com.luizmrd.crm.dto.AlunoPerfilAtualizarRequestDto;
-import com.luizmrd.crm.dto.AlunoRequestDto;
-import com.luizmrd.crm.dto.AulaRequestDto;
+import com.luizmrd.crm.dto.*;
 import com.luizmrd.crm.service.AlunoService;
 import com.luizmrd.crm.service.AulaService;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,10 +29,13 @@ public class AulaController {
         aulaService.criarAula(aula);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public AulaEntity bucarAulaPorId(@RequestParam Long id){
-        return aulaService.bucarAulaPorId(id);
+    public ResponseEntity<AulaRespostaDto> buscarPorId(@PathVariable Long id) {
+        AulaEntity aula = aulaService.bucarAulaPorId(id);
+        AulaRespostaDto dto = AulaRespostaDto.de(aula);
+
+        return ResponseEntity.ok((dto));
     }
 
     @PatchMapping
@@ -41,7 +43,7 @@ public class AulaController {
         aulaService.atualizarAula(id, aula);
     }
 
-    @PostMapping("/cancelar")
+    @PostMapping("/{id}/cancelar")
     public void cancelarAula(@RequestParam Long id){
         aulaService.cancelarAula(id);
     }
@@ -51,6 +53,12 @@ public class AulaController {
     @ResponseStatus(HttpStatus.OK)
     public void inscreverAluno(@RequestParam Long aulaId, @RequestParam Long alunoId) {
         aulaService.inscreverAlunoNaAula(aulaId, alunoId);
+    }
+
+    @DeleteMapping("/cancelar-inscricao")
+    @ResponseStatus(HttpStatus.OK)
+    public void cancelarInscricao(@RequestParam Long aulaId, @RequestParam Long alunoId) {
+        aulaService.removerInscricao(aulaId, alunoId);
     }
 
 }

@@ -1,5 +1,7 @@
 package com.luizmrd.crm.database.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.luizmrd.crm.database.model.enuns.StatusAula;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,6 +37,7 @@ public class AulaEntity {
     @Enumerated(EnumType.STRING)
     private StatusAula statusAula = StatusAula.AGENDADA;
 
+    @JsonIgnoreProperties({"cpf", "nascimento", "sexo", "telefone", "email", "endereco", "historicoPagamentos", "historicoAulas", "contrato", "plano"})
     @OneToMany(mappedBy = "aula", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<InscricaoEntity> inscricoes = new ArrayList<>();

@@ -101,4 +101,17 @@ public class AulaService {
 
 }
 
+    public void removerInscricao(Long aulaId, Long alunoId) {
+        AulaEntity aula = aulaRepository.findById(aulaId)
+                .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada"));
+
+        AlunoEntity aluno = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+
+        InscricaoEntity inscricao = inscricaoRepository.findByAulaAndAluno(aula, aluno)
+                .orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada"));
+
+        inscricaoRepository.delete(inscricao);
+    }
+
 }
