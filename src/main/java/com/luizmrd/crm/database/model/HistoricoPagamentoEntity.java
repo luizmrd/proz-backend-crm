@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 public class HistoricoPagamentoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "aluno_id",nullable = false)

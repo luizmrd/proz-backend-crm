@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Builder
 public class InscricaoEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false,name = "presenca_status")
