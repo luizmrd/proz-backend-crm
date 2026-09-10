@@ -123,4 +123,14 @@ public class AulaService {
         return aulaRepository.findAll(AulaEspecificacao.comFiltro(filtro));
     }
 
+
+    public InscricaoEntity lancarPresenca(Long id){
+
+        InscricaoEntity inscricao = inscricaoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada"));
+
+        inscricao.setPresencaStatus(PresencaStatusEnum.PRESENTE);
+        return inscricaoRepository.save(inscricao);
+    }
+
 }

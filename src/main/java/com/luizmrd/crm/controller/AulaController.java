@@ -73,5 +73,10 @@ public class AulaController {
     public void cancelarInscricao(@RequestParam Long aulaId, @RequestParam Long alunoId) {
         aulaService.removerInscricao(aulaId, alunoId);
     }
+    @PostMapping("lancar-presenca/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void lancarPresenca(@PathVariable Long id){
+        aulaService.lancarPresenca(id);
+    }
 
 }
