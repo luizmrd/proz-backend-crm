@@ -1,9 +1,9 @@
 package com.luizmrd.crm.controller;
 
-import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.AulaEntity;
-import com.luizmrd.crm.dto.*;
-import com.luizmrd.crm.service.AlunoService;
+import com.luizmrd.crm.dto.aula.AulaFiltroRequesDto;
+import com.luizmrd.crm.dto.aula.AulaRequestDto;
+import com.luizmrd.crm.dto.aula.AulaRespostaDto;
 import com.luizmrd.crm.service.AulaService;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
@@ -36,6 +36,19 @@ public class AulaController {
         AulaRespostaDto dto = AulaRespostaDto.de(aula);
 
         return ResponseEntity.ok((dto));
+    }
+
+
+    @GetMapping
+    public List<AulaRespostaDto> buscarAulasFiltro(@ModelAttribute AulaFiltroRequesDto filtro) {
+
+        List<AulaEntity> aulas = aulaService.buscarAulasFiltro(filtro);
+
+        List<AulaRespostaDto> dtos = aulas.stream()
+                .map(AulaRespostaDto::de)
+                .toList();
+
+        return dtos;
     }
 
     @PatchMapping

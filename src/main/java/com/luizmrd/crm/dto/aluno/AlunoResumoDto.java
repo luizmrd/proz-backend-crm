@@ -1,4 +1,4 @@
-package com.luizmrd.crm.dto;
+package com.luizmrd.crm.dto.aluno;
 
 
 import com.luizmrd.crm.database.model.AlunoEntity;

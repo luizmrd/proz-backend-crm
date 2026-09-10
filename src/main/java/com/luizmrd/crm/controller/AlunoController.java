@@ -2,9 +2,9 @@ package com.luizmrd.crm.controller;
 
 import com.luizmrd.crm.database.model.AlunoEntity;
 
-import com.luizmrd.crm.dto.AlunoPerfilAtualizarRequestDto;
-import com.luizmrd.crm.dto.AlunoFiltroRequestDto;
-import com.luizmrd.crm.dto.AlunoRequestDto;
+import com.luizmrd.crm.dto.aluno.AlunoPerfilAtualizarRequestDto;
+import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
+import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
 import com.luizmrd.crm.service.AlunoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

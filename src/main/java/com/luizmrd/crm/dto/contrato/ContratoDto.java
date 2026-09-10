@@ -1,6 +1,4 @@
-package com.luizmrd.crm.dto;
-
-import com.luizmrd.crm.database.model.AlunoEntity;
+package com.luizmrd.crm.dto.contrato;
 
 public record ContratoDto(
 

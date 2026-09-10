@@ -1,4 +1,4 @@
-package com.luizmrd.crm.dto;
+package com.luizmrd.crm.dto.plano;
 
 
 import java.math.BigDecimal;

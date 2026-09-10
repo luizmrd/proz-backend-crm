@@ -1,10 +1,9 @@
 package com.luizmrd.crm.service.especificacao;
 
 import com.luizmrd.crm.database.model.AlunoEntity;
-import com.luizmrd.crm.dto.AlunoFiltroRequestDto;
+import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Locale;
 
 public class AlunoEspecificacao {
 

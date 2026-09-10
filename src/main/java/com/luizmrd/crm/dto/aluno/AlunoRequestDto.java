@@ -1,11 +1,8 @@
-package com.luizmrd.crm.dto;
+package com.luizmrd.crm.dto.aluno;
 
-import com.luizmrd.crm.database.model.PlanoEntity;
 import com.luizmrd.crm.database.model.enuns.SexoEnum;
-import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record AlunoRequestDto (

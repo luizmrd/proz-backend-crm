@@ -1,7 +1,8 @@
-package com.luizmrd.crm.dto;
+package com.luizmrd.crm.dto.inscricao;
 
 import com.luizmrd.crm.database.model.InscricaoEntity;
 import com.luizmrd.crm.database.model.enuns.PresencaStatusEnum;
+import com.luizmrd.crm.dto.aluno.AlunoResumoDto;
 
 import java.time.LocalDateTime;
 

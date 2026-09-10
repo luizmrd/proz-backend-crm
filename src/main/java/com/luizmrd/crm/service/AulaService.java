@@ -9,9 +9,13 @@ import com.luizmrd.crm.database.model.enuns.StatusAula;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IAulaRepository;
 import com.luizmrd.crm.database.repository.IInscricaoRepository;
-import com.luizmrd.crm.dto.AulaRequestDto;
+import com.luizmrd.crm.dto.aula.AulaFiltroRequesDto;
+import com.luizmrd.crm.dto.aula.AulaRequestDto;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
+import com.luizmrd.crm.service.especificacao.AulaEspecificacao;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AulaService {
@@ -112,6 +116,11 @@ public class AulaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Inscrição não encontrada"));
 
         inscricaoRepository.delete(inscricao);
+    }
+
+
+    public List<AulaEntity> buscarAulasFiltro(AulaFiltroRequesDto filtro){
+        return aulaRepository.findAll(AulaEspecificacao.comFiltro(filtro));
     }
 
 }

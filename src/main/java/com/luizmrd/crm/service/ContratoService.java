@@ -4,12 +4,11 @@ import com.luizmrd.crm.config.CodigoHash;
 import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.ContratoEntity;
 import com.luizmrd.crm.database.model.HistoricoPagamentoEntity;
-import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IContratoRepository;
 import com.luizmrd.crm.database.repository.IHistoricoPagamentoRepository;
-import com.luizmrd.crm.dto.ContratoDto;
+import com.luizmrd.crm.dto.contrato.ContratoDto;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
