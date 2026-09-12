@@ -41,7 +41,7 @@ public class AlunoController {
         alunoService.criarAluno(aluno);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.UPGRADE_REQUIRED)
     public void atualizarPerfilAluno(@PathVariable Long id,
                                      @RequestBody AlunoPerfilAtualizarRequestDto alunoPerfilAtualizarRequestDto){

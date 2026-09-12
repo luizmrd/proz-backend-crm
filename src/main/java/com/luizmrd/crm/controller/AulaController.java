@@ -57,7 +57,7 @@ public class AulaController {
     }
 
     @PostMapping("/{id}/cancelar")
-    public void cancelarAula(@RequestParam Long id){
+    public void cancelarAula(@PathVariable Long id){
         aulaService.cancelarAula(id);
     }
 
