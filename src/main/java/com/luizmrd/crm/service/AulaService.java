@@ -13,6 +13,7 @@ import com.luizmrd.crm.dto.aula.AulaFiltroRequesDto;
 import com.luizmrd.crm.dto.aula.AulaRequestDto;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.service.especificacao.AulaEspecificacao;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -67,7 +68,7 @@ public class AulaService {
         aulaEntity.setStatusAula(StatusAula.CANCELADA);
         aulaRepository.save(aulaEntity);
     }
-
+    @Transactional
     public void inscreverAlunoNaAula(Long aulaId, Long idAluno){
         AulaEntity aula = aulaRepository.findById(aulaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada"));

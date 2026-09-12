@@ -33,7 +33,7 @@ public class AlunoEntity {
     private String telefone;
     @Column(nullable = false)
     private String email;
-
+    @Enumerated(EnumType.STRING)
     private SexoEnum sexo;
     @Column(unique = true)
     private String codigoAcesso;
@@ -50,7 +50,7 @@ public class AlunoEntity {
     private BigDecimal valorMensal;
 
     private Integer diaVencimento;
-
+    @Enumerated(EnumType.STRING)
     private StatusPagamentoEnum statusPagamento;
     @JsonIgnore
     @OneToOne
