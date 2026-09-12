@@ -61,6 +61,13 @@ public class UsuarioService {
 
         usuarioRepository.save(usuario);
 
+    }
 
+    public void desativarUsuario(Long id) {
+        UsuarioEntity usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        usuario.setAtivo(false);
+        usuarioRepository.save(usuario);
     }
 }

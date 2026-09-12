@@ -37,5 +37,10 @@ public class UsuarioController {
     public UsuarioResumoDto buscarUsuarioPorId(@PathVariable Long id) {
         return UsuarioResumoDto.de(usuarioService.buscarUsuarioPorId(id));
     }
+    @PatchMapping("/{id}/desativar")
+    @ResponseStatus(HttpStatus.OK)
+    public void deletarUsuario(@PathVariable Long id) {
+        usuarioService.desativarUsuario(id);
+    }
 
 }
