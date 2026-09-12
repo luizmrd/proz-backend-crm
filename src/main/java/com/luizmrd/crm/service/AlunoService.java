@@ -8,6 +8,7 @@ import com.luizmrd.crm.database.repository.IPlanoRepository;
 import com.luizmrd.crm.dto.aluno.AlunoPerfilAtualizarRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
+import com.luizmrd.crm.dto.aluno.AlunoResumoResponseDto;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.service.especificacao.AlunoEspecificacao;
 import jakarta.transaction.Transactional;
