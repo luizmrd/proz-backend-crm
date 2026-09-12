@@ -7,7 +7,8 @@ public record UsuarioResumoDto(
         String nome,
         String email,
         String telefone,
-        PerfilAcessoEnum cargo
+        PerfilAcessoEnum cargo,
+        Boolean ativo
 
 ) {
 
@@ -16,7 +17,8 @@ public record UsuarioResumoDto(
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),
-                usuario.getCargo()
+                usuario.getCargo(),
+                usuario.isAtivo()
         );
     }
 }

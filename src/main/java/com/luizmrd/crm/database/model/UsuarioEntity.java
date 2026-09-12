@@ -26,5 +26,7 @@ public class UsuarioEntity {
     private PerfilAcessoEnum cargo;
     @Column(nullable = false)
     private String telefone;
+    @Column(nullable = false)
+    private boolean ativo;
 
 }

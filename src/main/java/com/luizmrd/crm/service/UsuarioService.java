@@ -4,6 +4,7 @@ import com.luizmrd.crm.config.CodigoHash;
 import com.luizmrd.crm.database.model.UsuarioEntity;
 import com.luizmrd.crm.database.model.enuns.PerfilAcessoEnum;
 import com.luizmrd.crm.database.repository.IUsuarioRepository;
+import com.luizmrd.crm.dto.usuario.UsuarioAtualizarDto;
 import com.luizmrd.crm.dto.usuario.UsuarioDto;
 import com.luizmrd.crm.exception.BadRequestException;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
@@ -46,6 +47,20 @@ public class UsuarioService {
                 .senha(senhaCriptografada)
                 .cargo(usuarioDto.cargo())
                 .telefone(usuarioDto.telefone())
+                        .ativo(true)
                 .build());
+    }
+
+    public void atualizarUsuario(Long id, UsuarioAtualizarDto usuarioD) {
+        UsuarioEntity usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        usuario.setNome(usuarioD.nome());
+        usuario.setEmail(usuarioD.email());
+        usuario.setTelefone(usuarioD.telefone());
+
+        usuarioRepository.save(usuario);
+
+
     }
 }

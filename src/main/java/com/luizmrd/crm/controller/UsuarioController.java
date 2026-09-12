@@ -1,5 +1,6 @@
 package com.luizmrd.crm.controller;
 
+import com.luizmrd.crm.dto.usuario.UsuarioAtualizarDto;
 import com.luizmrd.crm.dto.usuario.UsuarioDto;
 import com.luizmrd.crm.dto.usuario.UsuarioResumoDto;
 import com.luizmrd.crm.service.UsuarioService;
@@ -22,6 +23,12 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.CREATED)
     public void criarUsuario(@RequestBody UsuarioDto usuarioDto){
         usuarioService.criarUsuario(usuarioDto);
+    }
+
+    @PostMapping("/atualizar-perfil/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioAtualizarDto usuarioDto){
+        usuarioService.atualizarUsuario(id, usuarioDto);
     }
 
 
