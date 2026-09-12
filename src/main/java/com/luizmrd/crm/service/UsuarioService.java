@@ -22,6 +22,12 @@ public class UsuarioService {
     }
 
 
+    public UsuarioEntity buscarUsuarioPorId(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+    }
+
+
 
     public void criarUsuario(UsuarioDto usuarioDto){
         if (usuarioRepository.existsByEmail(usuarioDto.email())) {

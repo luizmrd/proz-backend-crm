@@ -24,7 +24,9 @@ public record AulaRespostaDto(
         if (aula == null) return null;
 
         List<InscricaoRespostaDto> inscricoesDto = aula.getInscricoes() != null ?
-                aula.getInscricoes().stream().map(InscricaoRespostaDto::de).toList() : List.of();
+                aula.getInscricoes().stream()
+                        .map(InscricaoRespostaDto::de)
+                        .toList() : List.of();
 
         return new AulaRespostaDto(
                 aula.getId(),
