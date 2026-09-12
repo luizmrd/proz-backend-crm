@@ -1,5 +1,6 @@
 package com.luizmrd.crm.database.model;
 
+import com.luizmrd.crm.database.model.enuns.PerfilAcessoEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,7 +23,7 @@ public class UsuarioEntity {
     @Column(nullable = false)
     private String senha;
     @Column(nullable = false)
-    private String cargo;
+    private PerfilAcessoEnum cargo;
     @Column(nullable = false)
     private String telefone;
 

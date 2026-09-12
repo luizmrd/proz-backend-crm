@@ -14,7 +14,7 @@ public class CodigoHash {
             MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
             byte[] hashBytes = algorithm.digest(texto.getBytes(StandardCharsets.UTF_8));
 
-            // Converte os bytes para representação Hexadecimal
+
             StringBuilder hexString = new StringBuilder();
             for (byte b : hashBytes) {
                 String hex = Integer.toHexString(0xff & b);
