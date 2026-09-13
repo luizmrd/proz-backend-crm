@@ -70,4 +70,12 @@ public class UsuarioService {
         usuario.setAtivo(false);
         usuarioRepository.save(usuario);
     }
+
+    public void ativarUsuario(Long id) {
+        UsuarioEntity usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        usuario.setAtivo(true);
+        usuarioRepository.save(usuario);
+    }
 }

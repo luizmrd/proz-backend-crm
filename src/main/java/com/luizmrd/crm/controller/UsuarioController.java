@@ -39,9 +39,14 @@ public class UsuarioController {
     }
     @PatchMapping("/{id}/desativar")
     @ResponseStatus(HttpStatus.OK)
-    public void deletarUsuario(@PathVariable Long id) {
+    public void desativarUsuario(@PathVariable Long id) {
         usuarioService.desativarUsuario(id);
     }
 
+    @PatchMapping("/{id}/ativar")
+    @ResponseStatus(HttpStatus.OK)
+    public void ativarUsuario(@PathVariable Long id) {
+        usuarioService.ativarUsuario(id);
 
+    }
 }
