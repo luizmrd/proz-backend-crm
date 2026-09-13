@@ -1,12 +1,11 @@
 package com.luizmrd.crm.controller;
 
-import com.luizmrd.crm.dto.usuario.UsuarioAtualizarDto;
-import com.luizmrd.crm.dto.usuario.UsuarioAtualizarPermissoes;
-import com.luizmrd.crm.dto.usuario.UsuarioDto;
-import com.luizmrd.crm.dto.usuario.UsuarioResumoDto;
+import com.luizmrd.crm.dto.usuario.*;
 import com.luizmrd.crm.service.UsuarioService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/usuarios")
@@ -48,11 +47,19 @@ public class UsuarioController {
     public void desativarUsuario(@PathVariable Long id) {
         usuarioService.desativarUsuario(id);
     }
+    @GetMapping("/buscar")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UsuarioResumoDto> buscarUsuarios(@ModelAttribute UsuarioFiltroDto filtro) {
+        return usuarioService.buscarComfiltro(filtro).stream()
+                .map(UsuarioResumoDto::de)
+                .toList();
+    }
+
+
 
     @PatchMapping("/{id}/ativar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void ativarUsuario(@PathVariable Long id) {
         usuarioService.ativarUsuario(id);
-
     }
 }

@@ -7,9 +7,13 @@ import com.luizmrd.crm.database.repository.IUsuarioRepository;
 import com.luizmrd.crm.dto.usuario.UsuarioAtualizarDto;
 import com.luizmrd.crm.dto.usuario.UsuarioAtualizarPermissoes;
 import com.luizmrd.crm.dto.usuario.UsuarioDto;
+import com.luizmrd.crm.dto.usuario.UsuarioFiltroDto;
 import com.luizmrd.crm.exception.BadRequestException;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
+import com.luizmrd.crm.service.especificacao.UsuarioEspecificacao;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UsuarioService {
@@ -74,6 +78,10 @@ public class UsuarioService {
 
         usuarioRepository.save(usuario);
 
+    }
+
+    public List<UsuarioEntity> buscarComfiltro(UsuarioFiltroDto filtro){
+        return usuarioRepository.findAll(UsuarioEspecificacao.comFiltro(filtro));
     }
 
 
