@@ -5,6 +5,7 @@ import com.luizmrd.crm.database.model.UsuarioEntity;
 import com.luizmrd.crm.database.model.enuns.PerfilAcessoEnum;
 import com.luizmrd.crm.database.repository.IUsuarioRepository;
 import com.luizmrd.crm.dto.usuario.UsuarioAtualizarDto;
+import com.luizmrd.crm.dto.usuario.UsuarioAtualizarPermissoes;
 import com.luizmrd.crm.dto.usuario.UsuarioDto;
 import com.luizmrd.crm.exception.BadRequestException;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
@@ -62,6 +63,19 @@ public class UsuarioService {
         usuarioRepository.save(usuario);
 
     }
+    public void atualizarPerfilAcessoUsuario(Long id, UsuarioAtualizarPermissoes usuarioD) {
+        UsuarioEntity usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
+
+        String senhaCriptografada = codigoHash.gerarHash(usuarioD.senha());
+
+        usuario.setCargo(usuarioD.cargo());
+        usuario.setSenha(senhaCriptografada);
+
+        usuarioRepository.save(usuario);
+
+    }
+
 
     public void desativarUsuario(Long id) {
         UsuarioEntity usuario = usuarioRepository.findById(id)
