@@ -25,7 +25,7 @@ public class UsuarioController {
         usuarioService.criarUsuario(usuarioDto);
     }
 
-    @PostMapping("/atualizar-perfil/{id}")
+    @PutMapping("/atualizar-perfil/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void atualizarUsuario(@PathVariable Long id, @RequestBody UsuarioAtualizarDto usuarioDto){
         usuarioService.atualizarUsuario(id, usuarioDto);
@@ -42,5 +42,6 @@ public class UsuarioController {
     public void deletarUsuario(@PathVariable Long id) {
         usuarioService.desativarUsuario(id);
     }
+
 
 }
