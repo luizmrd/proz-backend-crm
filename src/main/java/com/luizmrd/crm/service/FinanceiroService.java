@@ -100,9 +100,26 @@ public class FinanceiroService {
                         .descricao(contas.descricao())
                         .dataVencimento(contas.dataVencimento())
                         .categoria(contas.categoria())
-                        .statusEnum(contas.status())
+                        .statusPagamento(StatusPagamentoEnum.PENDENTE)
                 .build()
         );
+    }
+
+    public void quitarContasPagar(Long id){
+
+        ContasPagarEntity contas = contasPagarRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("Conta não encontrado"));
+
+        if (StatusPagamentoEnum.PAGO.equals(contas.getStatusPagamento())){
+            throw new BadRequestException("Conta já pago");
+        }
+
+      contas.setDataPagamento(LocalDate.now());
+        contas.setComprovate(ReciboUtil.gerarCodigoComprovante());
+        contas.setStatusPagamento(StatusPagamentoEnum.PAGO);
+
+        contasPagarRepository.save(contas);
+
     }
 
 

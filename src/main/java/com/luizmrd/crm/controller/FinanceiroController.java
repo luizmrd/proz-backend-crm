@@ -41,4 +41,10 @@ public class FinanceiroController {
     public void criarContasPagar(@RequestBody ContasPagarRequestDto contas){
         financeiroService.criarContasPagar(contas);
     }
+
+    @PostMapping("/contas-pagar/quitar/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void quitarContasPagar(@PathVariable Long id){
+        financeiroService.quitarContasPagar(id);
+    }
 }
