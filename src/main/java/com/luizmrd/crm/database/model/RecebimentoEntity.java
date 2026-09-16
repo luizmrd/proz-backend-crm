@@ -33,7 +33,7 @@ public class RecebimentoEntity {
     private MetodoPagamentoEnum metodoPagamento;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, name = "status_pagamento")
     private StatusPagamentoEnum statusPagamento;
 
     private String recibo;

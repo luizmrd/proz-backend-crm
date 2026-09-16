@@ -6,6 +6,7 @@ import com.luizmrd.crm.dto.financeiro.ContasPagarRequestDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoQuitadoResponseDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoQuitarRequestDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoRequestDto;
+import com.luizmrd.crm.dto.inscricao.FinanceiroResumoDto;
 import com.luizmrd.crm.service.FinanceiroService;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.coyote.BadRequestException;
@@ -46,5 +47,11 @@ public class FinanceiroController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void quitarContasPagar(@PathVariable Long id){
         financeiroService.quitarContasPagar(id);
+    }
+
+    @GetMapping("/resumo")
+    public ResponseEntity<FinanceiroResumoDto> obterResumo() {
+        FinanceiroResumoDto resumo = financeiroService.obterResumoFluxoCaixaParaTeste();
+        return ResponseEntity.ok((resumo));
     }
 }

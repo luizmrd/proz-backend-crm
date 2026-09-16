@@ -37,7 +37,7 @@ public class ContasPagarEntity {
     @Column(name = "data_pagamento")
     private LocalDate dataPagamento;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "status_pagamento")
     @Enumerated(EnumType.STRING)
     private StatusPagamentoEnum statusPagamento;
 

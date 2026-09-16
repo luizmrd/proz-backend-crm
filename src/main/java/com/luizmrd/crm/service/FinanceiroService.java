@@ -4,6 +4,8 @@ import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.ContasPagarEntity;
 import com.luizmrd.crm.database.model.ContratoEntity;
 import com.luizmrd.crm.database.model.RecebimentoEntity;
+import com.luizmrd.crm.database.model.enuns.PerfilAcessoEnum;
+import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IContasPagarRepository;
@@ -13,6 +15,7 @@ import com.luizmrd.crm.dto.financeiro.ContasPagarRequestDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoQuitadoResponseDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoQuitarRequestDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoRequestDto;
+import com.luizmrd.crm.dto.inscricao.FinanceiroResumoDto;
 import com.luizmrd.crm.exception.BadRequestException;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.util.DiaVencimentoUtil;
@@ -20,8 +23,10 @@ import com.luizmrd.crm.util.ReciboUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.YearMonth;
 
 @Service
 public class FinanceiroService {
@@ -120,6 +125,44 @@ public class FinanceiroService {
 
         contasPagarRepository.save(contas);
 
+    }
+
+
+
+    @Transactional
+    public FinanceiroResumoDto obterResumoFluxoCaixaParaTeste() {
+        // 1. Define o intervalo do mês corrente
+        YearMonth mesAtual = YearMonth.now();
+        LocalDate inicioMes = mesAtual.atDay(1);
+        LocalDate fimMes = mesAtual.atEndOfMonth();
+
+        // 2. Busca e soma os recebimentos (Entradas)
+        BigDecimal totalRecebido = recebimentoRepository.somarPorStatusEIntervalo(
+                StatusPagamentoEnum.PAGO, inicioMes, fimMes);
+
+        BigDecimal totalAguardando = recebimentoRepository.somarPorStatusEIntervalo(
+                StatusPagamentoEnum.AGUARDANDO, inicioMes, fimMes);
+
+        BigDecimal totalAtrasado = recebimentoRepository.somarPorStatusEIntervalo(
+                StatusPagamentoEnum.ATRASADO, inicioMes, fimMes);
+
+        // Trata nulos caso não existam registros no período
+        totalRecebido = (totalRecebido != null) ? totalRecebido : BigDecimal.ZERO;
+        totalAguardando = (totalAguardando != null) ? totalAguardando : BigDecimal.ZERO;
+        totalAtrasado = (totalAtrasado != null) ? totalAtrasado : BigDecimal.ZERO;
+
+        BigDecimal totalPendente = totalAguardando.add(totalAtrasado);
+
+        // 3. Busca e soma as despesas (Saídas) sem checar perfil de acesso
+        BigDecimal totalDespesas = contasPagarRepository.somarPorStatusEIntervalo(
+                StatusPagamentoEnum.PAGO, inicioMes, fimMes);
+
+        totalDespesas = (totalDespesas != null) ? totalDespesas : BigDecimal.ZERO;
+
+        // 4. Calcula o Saldo Líquido diretamente
+        BigDecimal saldoLiquido = totalRecebido.subtract(totalDespesas);
+
+        return new FinanceiroResumoDto(totalRecebido, totalPendente, totalDespesas, saldoLiquido);
     }
 
 
