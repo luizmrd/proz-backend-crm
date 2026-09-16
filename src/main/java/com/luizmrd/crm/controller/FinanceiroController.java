@@ -2,6 +2,7 @@ package com.luizmrd.crm.controller;
 
 import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.RecebimentoEntity;
+import com.luizmrd.crm.dto.financeiro.ContasPagarRequestDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoQuitadoResponseDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoQuitarRequestDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoRequestDto;
@@ -13,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/financeiro/recebimento")
+@RequestMapping("api/v1/financeiro")
 public class FinanceiroController {
 
     private final FinanceiroService financeiroService;
@@ -22,16 +23,22 @@ public class FinanceiroController {
         this.financeiroService = financeiroService;
     }
 
-    @PostMapping
+    @PostMapping("/recebimento")
     @ResponseStatus(HttpStatus.CREATED)
     public void criarRecebimento(@RequestBody RecebimentoRequestDto recebimento) {
         financeiroService.criarRecebimento(recebimento);
     }
 
 
-    @PostMapping("/quitar/{id}")
+    @PostMapping("/recebimento/quitar/{id}")
     public ResponseEntity<RecebimentoQuitadoResponseDto> quitarRecebimento (@PathVariable Long id, @RequestBody RecebimentoQuitarRequestDto recebimento) throws BadRequestException {
         RecebimentoQuitadoResponseDto response =financeiroService.quitarRecebimento(id,recebimento);
        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/contas-pagar")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void criarContasPagar(@RequestBody ContasPagarRequestDto contas){
+        financeiroService.criarContasPagar(contas);
     }
 }

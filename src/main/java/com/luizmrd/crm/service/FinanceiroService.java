@@ -1,12 +1,15 @@
 package com.luizmrd.crm.service;
 
 import com.luizmrd.crm.database.model.AlunoEntity;
+import com.luizmrd.crm.database.model.ContasPagarEntity;
 import com.luizmrd.crm.database.model.ContratoEntity;
 import com.luizmrd.crm.database.model.RecebimentoEntity;
 import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
+import com.luizmrd.crm.database.repository.IContasPagarRepository;
 import com.luizmrd.crm.database.repository.IContratoRepository;
 import com.luizmrd.crm.database.repository.IRecebimentoRepository;
+import com.luizmrd.crm.dto.financeiro.ContasPagarRequestDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoQuitadoResponseDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoQuitarRequestDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoRequestDto;
@@ -27,13 +30,15 @@ public class FinanceiroService {
     private final IRecebimentoRepository recebimentoRepository;
     private final IAlunoRepository alunoRepository;
     private final IContratoRepository contratoRepository;
+    private final IContasPagarRepository contasPagarRepository;
 
 
     public FinanceiroService(IRecebimentoRepository recebimentoRepository, IAlunoRepository alunoRepository,
-                             IContratoRepository contratoRepository) {
+                             IContratoRepository contratoRepository, IContasPagarRepository contasPagarRepository) {
         this.contratoRepository = contratoRepository;
         this.alunoRepository = alunoRepository;
         this.recebimentoRepository = recebimentoRepository;
+        this.contasPagarRepository = contasPagarRepository;
     }
 
     public void criarRecebimento(RecebimentoRequestDto recebimento){
@@ -86,6 +91,18 @@ public class FinanceiroService {
 
         return RecebimentoQuitadoResponseDto.de(recebimentoRepository.save(recebimento));
 
+    }
+
+    public void criarContasPagar(ContasPagarRequestDto contas){
+
+        contasPagarRepository.save(ContasPagarEntity.builder()
+                        .valor(contas.valor())
+                        .descricao(contas.descricao())
+                        .dataVencimento(contas.dataVencimento())
+                        .categoria(contas.categoria())
+                        .statusEnum(contas.status())
+                .build()
+        );
     }
 
 
