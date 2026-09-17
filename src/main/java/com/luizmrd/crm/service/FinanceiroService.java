@@ -189,4 +189,17 @@ public class FinanceiroService {
                 .toList();
     }
 
+    public List<ContasPagarRespostaDto> listarContasPagar(){
+        List<StatusPagamentoEnum> statusList = List.of(
+                StatusPagamentoEnum.PENDENTE,
+                StatusPagamentoEnum.AGUARDANDO
+        );
+        List<ContasPagarEntity> contas = contasPagarRepository.findByStatusPagamentoIn(statusList);
+
+        return contas.stream()
+                .map(ContasPagarRespostaDto::de)
+                .toList();
+
+    }
+
 }

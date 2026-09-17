@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface IContasPagarRepository extends JpaRepository<ContasPagarEntity, Long> {
 
@@ -25,4 +26,7 @@ public interface IContasPagarRepository extends JpaRepository<ContasPagarEntity,
             @Param("inicio") LocalDate inicio,
             @Param("fim") LocalDate fim
     );
+
+
+    List<ContasPagarEntity> findByStatusPagamentoIn(List<StatusPagamentoEnum> statusList);
 }
