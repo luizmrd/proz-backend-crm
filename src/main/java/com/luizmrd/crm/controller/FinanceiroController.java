@@ -61,4 +61,13 @@ public class FinanceiroController {
         List<RecebimentoRespostaDto> recebimentos = financeiroService.listarRecebimentos(filtro);
         return ResponseEntity.ok((recebimentos));
     }
+    @GetMapping("/recebimentos/atrasados")
+    public ResponseEntity<List<RecebimentoRespostaAtrasadosDto>> listarRecebimentosAtrasados() {
+
+        List<RecebimentoRespostaAtrasadosDto> recebimentos = financeiroService.listarRecebimentosAtrasados();
+        return ResponseEntity.ok((recebimentos));
+    }
+
+
+
 }

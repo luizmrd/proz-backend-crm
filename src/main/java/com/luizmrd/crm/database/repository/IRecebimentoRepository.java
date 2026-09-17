@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 public interface IRecebimentoRepository extends JpaRepository<RecebimentoEntity, Long> , JpaSpecificationExecutor<RecebimentoEntity> {
 
@@ -25,4 +26,6 @@ public interface IRecebimentoRepository extends JpaRepository<RecebimentoEntity,
             @Param("inicio") LocalDate inicio,
             @Param("fim") LocalDate fim
     );
+
+    List<RecebimentoEntity> findByStatusPagamento(StatusPagamentoEnum status);
 }

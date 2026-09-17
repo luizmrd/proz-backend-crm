@@ -170,7 +170,7 @@ public class FinanceiroService {
     public List<RecebimentoRespostaDto> listarRecebimentos(RecebimentoFiltroDto filtro) {
         Specification<RecebimentoEntity> spec = RecebimentoEspecificacao.comFiltro(filtro);
 
-        // Ordena do recebimento mais recente para o mais antigo por data de vencimento
+
         List<RecebimentoEntity> recebimentos = recebimentoRepository.findAll(
                 spec,
                 Sort.by(Sort.Direction.DESC, "dataVencimento")
@@ -180,4 +180,13 @@ public class FinanceiroService {
                 .map(RecebimentoRespostaDto::de)
                 .toList();
     }
+
+    public List<RecebimentoRespostaAtrasadosDto> listarRecebimentosAtrasados(){
+        List<RecebimentoEntity> atrasados = recebimentoRepository.findByStatusPagamento(StatusPagamentoEnum.ATRASADO);
+
+        return atrasados.stream()
+                .map(RecebimentoRespostaAtrasadosDto::de)
+                .toList();
+    }
+
 }
