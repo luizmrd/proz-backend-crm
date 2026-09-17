@@ -2,10 +2,7 @@ package com.luizmrd.crm.controller;
 
 import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.RecebimentoEntity;
-import com.luizmrd.crm.dto.financeiro.ContasPagarRequestDto;
-import com.luizmrd.crm.dto.financeiro.RecebimentoQuitadoResponseDto;
-import com.luizmrd.crm.dto.financeiro.RecebimentoQuitarRequestDto;
-import com.luizmrd.crm.dto.financeiro.RecebimentoRequestDto;
+import com.luizmrd.crm.dto.financeiro.*;
 import com.luizmrd.crm.dto.inscricao.FinanceiroResumoDto;
 import com.luizmrd.crm.service.FinanceiroService;
 import io.swagger.v3.oas.models.responses.ApiResponse;
@@ -13,6 +10,8 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/financeiro")
@@ -53,5 +52,13 @@ public class FinanceiroController {
     public ResponseEntity<FinanceiroResumoDto> obterResumo() {
         FinanceiroResumoDto resumo = financeiroService.obterResumoFluxoCaixaParaTeste();
         return ResponseEntity.ok((resumo));
+    }
+
+    @GetMapping("/recebimentos")
+    public ResponseEntity<List<RecebimentoRespostaDto>> listarRecebimentos(
+            @ModelAttribute RecebimentoFiltroDto filtro
+    ) {
+        List<RecebimentoRespostaDto> recebimentos = financeiroService.listarRecebimentos(filtro);
+        return ResponseEntity.ok((recebimentos));
     }
 }
