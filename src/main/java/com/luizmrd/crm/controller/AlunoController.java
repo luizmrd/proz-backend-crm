@@ -25,8 +25,10 @@ public class AlunoController {
     }
 
     @GetMapping
-    public List<AlunoEntity> bucarAlunosComFiltro(@RequestParam AlunoFiltroRequestDto filtro){
-        return alunoService.buscarAlunosFiltro(filtro);
+    public List<AlunoResumoResponseDto> bucarAlunosComFiltro(@ModelAttribute AlunoFiltroRequestDto filtro){
+        return alunoService.buscarAlunosFiltro(filtro).stream()
+                .map(AlunoResumoResponseDto::de)
+                .toList();
     }
     @GetMapping("/{id}")
     public ResponseEntity<AlunoResumoResponseDto> bucarAlunosId(@PathVariable Long id){
