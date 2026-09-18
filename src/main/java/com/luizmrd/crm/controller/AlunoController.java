@@ -1,8 +1,7 @@
 package com.luizmrd.crm.controller;
 
+import com.luizmrd.crm.commom.ApiResponse;
 import com.luizmrd.crm.database.model.AlunoEntity;
-
-import com.luizmrd.crm.database.model.AulaEntity;
 import com.luizmrd.crm.dto.aluno.AlunoPerfilAtualizarRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
@@ -25,16 +24,17 @@ public class AlunoController {
     }
 
     @GetMapping
-    public List<AlunoResumoResponseDto> bucarAlunosComFiltro(@ModelAttribute AlunoFiltroRequestDto filtro){
-        return alunoService.buscarAlunosFiltro(filtro).stream()
+    public ApiResponse<List<AlunoResumoResponseDto>> bucarAlunosComFiltro(@ModelAttribute AlunoFiltroRequestDto filtro){
+        List<AlunoResumoResponseDto> alunos = alunoService.buscarAlunosFiltro(filtro).stream()
                 .map(AlunoResumoResponseDto::de)
                 .toList();
+        return ApiResponse.of(alunos);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<AlunoResumoResponseDto> bucarAlunosId(@PathVariable Long id){
+    public ResponseEntity<ApiResponse<AlunoResumoResponseDto>> bucarAlunosId(@PathVariable Long id){
         AlunoEntity aluno = alunoService.buscarAlunoId(id);
         AlunoResumoResponseDto dto = AlunoResumoResponseDto.de(aluno);
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(ApiResponse.of(dto));
     }
 
     @PostMapping

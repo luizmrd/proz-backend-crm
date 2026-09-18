@@ -1,11 +1,11 @@
 package com.luizmrd.crm.controller;
 
+import com.luizmrd.crm.commom.ApiResponse;
 import com.luizmrd.crm.database.model.AulaEntity;
 import com.luizmrd.crm.dto.aula.AulaFiltroRequesDto;
 import com.luizmrd.crm.dto.aula.AulaRequestDto;
 import com.luizmrd.crm.dto.aula.AulaRespostaDto;
 import com.luizmrd.crm.service.AulaService;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,16 +31,16 @@ public class AulaController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<AulaRespostaDto> buscarPorId(@PathVariable Long id) {
+    public ResponseEntity<ApiResponse<AulaRespostaDto>> buscarPorId(@PathVariable Long id) {
         AulaEntity aula = aulaService.bucarAulaPorId(id);
         AulaRespostaDto dto = AulaRespostaDto.de(aula);
 
-        return ResponseEntity.ok((dto));
+        return ResponseEntity.ok(ApiResponse.of(dto));
     }
 
 
     @GetMapping
-    public List<AulaRespostaDto> buscarAulasFiltro(@ModelAttribute AulaFiltroRequesDto filtro) {
+    public ApiResponse<List<AulaRespostaDto>> buscarAulasFiltro(@ModelAttribute AulaFiltroRequesDto filtro) {
 
         List<AulaEntity> aulas = aulaService.buscarAulasFiltro(filtro);
 
@@ -48,7 +48,7 @@ public class AulaController {
                 .map(AulaRespostaDto::de)
                 .toList();
 
-        return dtos;
+        return ApiResponse.of(dtos);
     }
 
     @PatchMapping

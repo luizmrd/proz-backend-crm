@@ -1,11 +1,9 @@
 package com.luizmrd.crm.controller;
 
-import com.luizmrd.crm.database.model.AlunoEntity;
-import com.luizmrd.crm.database.model.RecebimentoEntity;
+import com.luizmrd.crm.commom.ApiResponse;
 import com.luizmrd.crm.dto.financeiro.*;
 import com.luizmrd.crm.dto.inscricao.FinanceiroResumoDto;
 import com.luizmrd.crm.service.FinanceiroService;
-import io.swagger.v3.oas.models.responses.ApiResponse;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +29,9 @@ public class FinanceiroController {
 
 
     @PostMapping("/recebimento/quitar/{id}")
-    public ResponseEntity<RecebimentoQuitadoResponseDto> quitarRecebimento (@PathVariable Long id, @RequestBody RecebimentoQuitarRequestDto recebimento) throws BadRequestException {
+    public ResponseEntity<ApiResponse<RecebimentoQuitadoResponseDto>> quitarRecebimento (@PathVariable Long id, @RequestBody RecebimentoQuitarRequestDto recebimento) throws BadRequestException {
         RecebimentoQuitadoResponseDto response =financeiroService.quitarRecebimento(id,recebimento);
-       return ResponseEntity.ok(response);
+       return ResponseEntity.ok(ApiResponse.of(response));
     }
 
     @PostMapping("/contas-pagar")
@@ -49,29 +47,29 @@ public class FinanceiroController {
     }
 
     @GetMapping("/resumo")
-    public ResponseEntity<FinanceiroResumoDto> obterResumo() {
+    public ResponseEntity<ApiResponse<FinanceiroResumoDto>> obterResumo() {
         FinanceiroResumoDto resumo = financeiroService.obterResumoFluxoCaixaParaTeste();
-        return ResponseEntity.ok((resumo));
+        return ResponseEntity.ok(ApiResponse.of(resumo));
     }
 
     @GetMapping("/recebimentos")
-    public ResponseEntity<List<RecebimentoRespostaDto>> listarRecebimentos(
+    public ResponseEntity<ApiResponse<List<RecebimentoRespostaDto>>> listarRecebimentos(
             @ModelAttribute RecebimentoFiltroDto filtro
     ) {
         List<RecebimentoRespostaDto> recebimentos = financeiroService.listarRecebimentos(filtro);
-        return ResponseEntity.ok((recebimentos));
+        return ResponseEntity.ok(ApiResponse.of(recebimentos));
     }
     @GetMapping("/recebimentos/atrasados")
-    public ResponseEntity<List<RecebimentoRespostaAtrasadosDto>> listarRecebimentosAtrasados() {
+    public ResponseEntity<ApiResponse<List<RecebimentoRespostaAtrasadosDto>>> listarRecebimentosAtrasados() {
 
         List<RecebimentoRespostaAtrasadosDto> recebimentos = financeiroService.listarRecebimentosAtrasados();
-        return ResponseEntity.ok((recebimentos));
+        return ResponseEntity.ok(ApiResponse.of(recebimentos));
     }
     @GetMapping("/contas-pagar")
-    public ResponseEntity<List<ContasPagarRespostaDto>> listarContasAtrasados() {
+    public ResponseEntity<ApiResponse<List<ContasPagarRespostaDto>>> listarContasAtrasados() {
 
         List<ContasPagarRespostaDto> contas = financeiroService.listarContasPagar();
-        return ResponseEntity.ok((contas));
+        return ResponseEntity.ok(ApiResponse.of(contas));
     }
 
 

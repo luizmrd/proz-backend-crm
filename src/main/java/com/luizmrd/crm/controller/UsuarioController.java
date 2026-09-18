@@ -1,5 +1,6 @@
 package com.luizmrd.crm.controller;
 
+import com.luizmrd.crm.commom.ApiResponse;
 import com.luizmrd.crm.dto.usuario.*;
 import com.luizmrd.crm.service.UsuarioService;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,8 @@ public class UsuarioController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public UsuarioResumoDto buscarUsuarioPorId(@PathVariable Long id) {
-        return UsuarioResumoDto.de(usuarioService.buscarUsuarioPorId(id));
+    public ApiResponse<UsuarioResumoDto> buscarUsuarioPorId(@PathVariable Long id) {
+        return ApiResponse.of(UsuarioResumoDto.de(usuarioService.buscarUsuarioPorId(id)));
     }
     @PatchMapping("/{id}/desativar")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -49,10 +50,11 @@ public class UsuarioController {
     }
     @GetMapping("/buscar")
     @ResponseStatus(HttpStatus.OK)
-    public List<UsuarioResumoDto> buscarUsuarios(@ModelAttribute UsuarioFiltroDto filtro) {
-        return usuarioService.buscarComfiltro(filtro).stream()
+    public ApiResponse<List<UsuarioResumoDto>> buscarUsuarios(@ModelAttribute UsuarioFiltroDto filtro) {
+        List<UsuarioResumoDto> usuarios = usuarioService.buscarComfiltro(filtro).stream()
                 .map(UsuarioResumoDto::de)
                 .toList();
+        return ApiResponse.of(usuarios);
     }
 
 

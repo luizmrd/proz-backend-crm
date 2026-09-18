@@ -13,17 +13,21 @@ public class GlobalHandlerException {
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ErrorResponse> handlerBadRequest(BadRequestException ex){
-        ErrorResponse resp = ErrorResponse.builder()
-                .message(ex.getMessage())
-                .status(HttpStatus.BAD_REQUEST.value())
-                .build();
+        ErrorResponse resp = ErrorResponse.of(
+                ex.getCode(),
+                ex.getMessage(),
+                null
+        );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
-    }@ExceptionHandler(ResourceNotFoundException.class)
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handlerResourceNotFound(ResourceNotFoundException ex){
-        ErrorResponse resp = ErrorResponse.builder()
-                .message(ex.getMessage())
-                .status(HttpStatus.NOT_FOUND.value())
-                .build();
+        ErrorResponse resp = ErrorResponse.of(
+                ex.getCode(),
+                ex.getMessage(),
+                null
+        );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(resp);
     }
 }

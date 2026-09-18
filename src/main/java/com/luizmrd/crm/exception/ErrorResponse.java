@@ -1,11 +1,13 @@
 package com.luizmrd.crm.exception;
 
-import lombok.Builder;
-import lombok.Getter;
+import java.util.Map;
 
-@Builder
-@Getter
-public class ErrorResponse {
-    String message;
-    Integer status;
+public record ErrorResponse(ErrorDetail error) {
+
+    public static ErrorResponse of(String code, String message, Map<String, Object> details) {
+        return new ErrorResponse(new ErrorDetail(code, message, details));
+    }
+
+    public record ErrorDetail(String code, String message, Map<String, Object> details) {
+    }
 }
