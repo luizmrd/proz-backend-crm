@@ -5,6 +5,7 @@ import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.dto.aluno.AlunoPerfilAtualizarRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
+import com.luizmrd.crm.dto.aluno.AlunoRiscoEvasaoResponseDto;
 import com.luizmrd.crm.dto.aluno.AlunoResumoResponseDto;
 import com.luizmrd.crm.service.AlunoService;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,13 @@ public class AlunoController {
                 .toList();
         return ApiResponse.of(alunos);
     }
+
+    @GetMapping("/risco-evasao")
+    public ResponseEntity<ApiResponse<List<AlunoRiscoEvasaoResponseDto>>> listarAlunosRiscoEvasao(){
+        List<AlunoRiscoEvasaoResponseDto> alunos = alunoService.listarAlunosRiscoEvasao();
+        return ResponseEntity.ok(ApiResponse.of(alunos));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<AlunoResumoResponseDto>> bucarAlunosId(@PathVariable Long id){
         AlunoEntity aluno = alunoService.buscarAlunoId(id);

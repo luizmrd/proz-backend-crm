@@ -1,6 +1,5 @@
 package com.luizmrd.crm.service;
 
-import com.luizmrd.crm.config.CodigoHash;
 import com.luizmrd.crm.database.model.UsuarioEntity;
 import com.luizmrd.crm.database.model.enuns.PerfilAcessoEnum;
 import com.luizmrd.crm.database.repository.IUsuarioRepository;
@@ -11,6 +10,7 @@ import com.luizmrd.crm.dto.usuario.UsuarioFiltroDto;
 import com.luizmrd.crm.exception.BadRequestException;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.service.especificacao.UsuarioEspecificacao;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +19,11 @@ import java.util.List;
 public class UsuarioService {
 
     private final IUsuarioRepository usuarioRepository;
-    private final CodigoHash codigoHash;
+    private final PasswordEncoder passwordEncoder;
 
 
-    public UsuarioService(IUsuarioRepository usuarioRepository, CodigoHash codigoHash) {
-        this.codigoHash = codigoHash;
+    public UsuarioService(IUsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         this.usuarioRepository = usuarioRepository;
     }
 
@@ -43,7 +43,7 @@ public class UsuarioService {
             throw new ResourceNotFoundException("Não é permitido criar outro usuário ADMIN");
         }
 
-        String senhaCriptografada = codigoHash.gerarHash(usuarioDto.senha());
+        String senhaCriptografada = passwordEncoder.encode(usuarioDto.senha());
 
 
         usuarioRepository.save(UsuarioEntity.builder()
@@ -71,7 +71,7 @@ public class UsuarioService {
         UsuarioEntity usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
-        String senhaCriptografada = codigoHash.gerarHash(usuarioD.senha());
+        String senhaCriptografada = passwordEncoder.encode(usuarioD.senha());
 
         usuario.setCargo(usuarioD.cargo());
         usuario.setSenha(senhaCriptografada);

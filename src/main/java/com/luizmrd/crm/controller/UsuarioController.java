@@ -4,12 +4,14 @@ import com.luizmrd.crm.commom.ApiResponse;
 import com.luizmrd.crm.dto.usuario.*;
 import com.luizmrd.crm.service.UsuarioService;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/usuarios")
+@PreAuthorize("hasRole('ADMINISTRADOR')")
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
