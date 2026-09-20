@@ -62,4 +62,10 @@ public class ContratoController {
         contratoService.atualizarContrato(id, contratoAtualizarRequestDto);
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void excluirContrato(@PathVariable Long id){
+        contratoService.excluirContrato(id);
+    }
+
 }

@@ -108,4 +108,15 @@ public class ContratoService {
         return contratoRepository.save(contrato);
     }
 
+    @Transactional
+    public void excluirContrato(Long id) {
+        ContratoEntity contrato = buscarContrato(id);
+
+        if (contrato.getAluno() != null) {
+            contrato.getAluno().setContrato(null);
+        }
+
+        contratoRepository.delete(contrato);
+    }
+
 }
