@@ -19,8 +19,13 @@ public class JwtService {
     private final SecretKey chave;
     private final long expiracaoSegundos;
 
+
+
     public JwtService(@Value("${app.jwt.secret}") String secret,
                       @Value("${app.jwt.expiracao-segundos}") long expiracaoSegundos) {
+        System.out.println("### JWT_SECRET recebido tem " + secret.length() + " caracteres");
+        System.out.println("### Primeiros 5 caracteres: " + secret.substring(0, Math.min(5, secret.length())));
+
         this.chave = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
         this.expiracaoSegundos = expiracaoSegundos;
     }
@@ -62,4 +67,7 @@ public class JwtService {
     public long getExpiracaoSegundos() {
         return expiracaoSegundos;
     }
+
+
+
 }

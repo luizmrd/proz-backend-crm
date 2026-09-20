@@ -8,8 +8,12 @@ import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IContratoRepository;
 import com.luizmrd.crm.database.repository.IHistoricoPagamentoRepository;
+import com.luizmrd.crm.dto.contrato.ContratoAtualizarRequestDto;
 import com.luizmrd.crm.dto.contrato.ContratoDto;
+import com.luizmrd.crm.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -65,6 +69,43 @@ public class ContratoService {
 
         historicoPagamentoRepository.save(historicoPagamento);
 
+    }
+
+    public Page<ContratoEntity> listarContratos(Pageable pageable) {
+        return contratoRepository.findAll(pageable);
+    }
+
+    public ContratoEntity buscarContrato(Long id) {
+        return contratoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Contrato não encontrado"));
+    }
+
+    public ContratoEntity buscarContratoPorAluno(Long alunoId) {
+        return contratoRepository.findByAlunoId(alunoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Contrato não encontrado para o aluno"));
+    }
+
+    @Transactional
+    public ContratoEntity atualizarContrato(Long id, ContratoAtualizarRequestDto contratoAtualizarRequestDto) {
+        ContratoEntity contrato = buscarContrato(id);
+
+        if (contratoAtualizarRequestDto.aceiteContrato() != null) {
+            contrato.setAceiteContrato(contratoAtualizarRequestDto.aceiteContrato());
+        }
+        if (contratoAtualizarRequestDto.termosContrato() != null) {
+            contrato.setTermosContrato(contratoAtualizarRequestDto.termosContrato());
+        }
+        if (contratoAtualizarRequestDto.diaVencimentoMensalidade() != null) {
+            contrato.setDiaVencimentoMensalidade(contratoAtualizarRequestDto.diaVencimentoMensalidade());
+            if (contrato.getAluno() != null) {
+                contrato.getAluno().setDiaVencimento(contratoAtualizarRequestDto.diaVencimentoMensalidade());
+            }
+        }
+        if (contratoAtualizarRequestDto.assinaturaDigital() != null) {
+            contrato.setAssinaturaDigital(codigoHash.gerarHash(contratoAtualizarRequestDto.assinaturaDigital()));
+        }
+
+        return contratoRepository.save(contrato);
     }
 
 }
