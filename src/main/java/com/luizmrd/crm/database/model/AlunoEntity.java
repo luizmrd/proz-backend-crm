@@ -56,6 +56,11 @@ public class AlunoEntity {
     @OneToOne
     @JoinColumn(name = "contrato_id")
     private ContratoEntity contrato;
+
+    @OneToOne
+    @JoinColumn(name = "endereco_id")
+    private EnderecoEntity endereco;
+
     @JsonIgnore
     @OneToMany(mappedBy = "aluno", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HistoricoPagamentoEntity> historicoPagamento = new ArrayList<>();
