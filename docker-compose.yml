@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: crm-db
+    environment:
+      POSTGRES_DB: crm_academia
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d crm_academia"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: crm-api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Sobrescreve a URL do application.yaml (que usa sslmode=require,
+      # incompativel com o postgres local sem SSL habilitado).
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/crm_academia
+      DATABASE_USERNAME: postgres
+      DATABASE_PASSWORD: postgres
+      JWT_SECRET: troque-por-uma-string-aleatoria-de-32-ou-mais-caracteres
+      JWT_EXPIRACAO_SEGUNDOS: "28800"
+      ADMIN_NOME: Admin
+      ADMIN_EMAIL: admin@crm.com
+      ADMIN_SENHA: admin123
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:

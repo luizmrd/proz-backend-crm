@@ -1,7 +1,7 @@
 # ==============================================================================
 # Etapa 1: Build da aplicação (Maven + JDK 21)
 # ==============================================================================
-FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS buildg
 WORKDIR /app
 COPY pom.xml .
 RUN mvn dependency:go-offline -B

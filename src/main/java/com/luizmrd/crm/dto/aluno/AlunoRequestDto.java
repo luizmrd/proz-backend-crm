@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public record AlunoRequestDto (
 String nome,
 String cpf,
-LocalDate dataNacimento,
+LocalDate dataNascimento,
 SexoEnum sexo,
 String telefone,
 String email,

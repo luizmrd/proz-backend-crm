@@ -48,6 +48,14 @@ public class EnderecoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Endereço não encontrado"));
     }
 
+    public EnderecoEntity buscarEnderecoPorAluno(Long alunoId) {
+        return enderecoRepository.findByAlunoId(alunoId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "ENDERECO_NAO_CADASTRADO",
+                        "Endereço não cadastrado. Preencha o endereço do aluno."
+                ));
+    }
+
     @Transactional
     public EnderecoEntity atualizarEndereco(Long id, EnderecoAtualizarRequestDto endereco) {
         EnderecoEntity enderecoEntity = buscarEndereco(id);

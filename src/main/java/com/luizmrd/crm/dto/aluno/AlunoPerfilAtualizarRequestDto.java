@@ -7,7 +7,7 @@ import java.time.LocalDate;
 public record AlunoPerfilAtualizarRequestDto(
 String nome,
 String cpf,
-LocalDate dataNacimento,
+LocalDate dataNascimento,
 SexoEnum sexo,
 String telefone,
 String email

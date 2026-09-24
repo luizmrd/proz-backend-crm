@@ -118,7 +118,7 @@ public class AlunoService {
 
         aluno.setNome(alunoPerfilAtualizarRequestDto.nome());
         aluno.setCpf(alunoPerfilAtualizarRequestDto.cpf());
-        aluno.setDataNascimento(alunoPerfilAtualizarRequestDto.dataNacimento());
+        aluno.setDataNascimento(alunoPerfilAtualizarRequestDto.dataNascimento());
         aluno.setSexo(alunoPerfilAtualizarRequestDto.sexo());
         aluno.setTelefone(alunoPerfilAtualizarRequestDto.telefone());
         aluno.setEmail(alunoPerfilAtualizarRequestDto.email());
@@ -153,7 +153,7 @@ public class AlunoService {
                AlunoEntity.builder()
                 .nome(alunoRequestDto.nome())
                 .cpf(alunoRequestDto.cpf())
-                .dataNascimento(alunoRequestDto.dataNacimento())
+                .dataNascimento(alunoRequestDto.dataNascimento())
                 .sexo(alunoRequestDto.sexo())
                 .telefone(alunoRequestDto.telefone())
                 .email(alunoRequestDto.email())

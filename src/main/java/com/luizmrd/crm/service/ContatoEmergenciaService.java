@@ -45,6 +45,14 @@ public class ContatoEmergenciaService {
                 .orElseThrow(() -> new ResourceNotFoundException("Contato de emergência não encontrado"));
     }
 
+    public ContatoEmergenciaEntity buscarContatoEmergenciaPorAluno(Long alunoId) {
+        return contatoEmergenciaRepository.findByAlunoId(alunoId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "CONTATO_EMERGENCIA_NAO_CADASTRADO",
+                        "Contato de emergência não cadastrado. Preencha o contato de emergência do aluno."
+                ));
+    }
+
     @Transactional
     public ContatoEmergenciaEntity atualizarContatoEmergencia(Long id,
                                                               ContatoEmergenciaAtualizarRequestDto contatoEmergencia) {
