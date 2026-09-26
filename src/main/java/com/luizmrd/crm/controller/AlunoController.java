@@ -2,6 +2,7 @@ package com.luizmrd.crm.controller;
 
 import com.luizmrd.crm.commom.ApiResponse;
 import com.luizmrd.crm.database.model.AlunoEntity;
+import com.luizmrd.crm.dto.aluno.AlunoCadastradoResponseDto;
 import com.luizmrd.crm.dto.aluno.AlunoPerfilAtualizarRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
@@ -31,6 +32,12 @@ public class AlunoController {
                 .map(AlunoResumoResponseDto::de)
                 .toList();
         return ApiResponse.of(alunos);
+    }
+
+    @GetMapping("/cadastrados")
+    public ResponseEntity<ApiResponse<List<AlunoCadastradoResponseDto>>> listarAlunosCadastrados(){
+        List<AlunoCadastradoResponseDto> alunos = alunoService.listarAlunosCadastrados();
+        return ResponseEntity.ok(ApiResponse.of(alunos));
     }
 
     @GetMapping("/risco-evasao")

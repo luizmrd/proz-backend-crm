@@ -11,6 +11,7 @@ import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IInscricaoRepository;
 import com.luizmrd.crm.database.repository.IPlanoRepository;
 import com.luizmrd.crm.database.repository.IRecebimentoRepository;
+import com.luizmrd.crm.dto.aluno.AlunoCadastradoResponseDto;
 import com.luizmrd.crm.dto.aluno.AlunoPerfilAtualizarRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
@@ -49,6 +50,13 @@ public class AlunoService {
         this.recebimentoRepository = recebimentoRepository;
     }
 
+
+    @Transactional
+    public List<AlunoCadastradoResponseDto> listarAlunosCadastrados(){
+        return alunoRepository.findAll().stream()
+                .map(AlunoCadastradoResponseDto::de)
+                .toList();
+    }
 
     public List<AlunoEntity> buscarAlunosFiltro(AlunoFiltroRequestDto filtro){
         List<AlunoEntity> alunos = alunoRepository.findAll(AlunoEspecificacao.comFiltro(filtro));
