@@ -168,6 +168,7 @@ public class FinanceiroService {
 
     @Transactional
     public List<RecebimentoRespostaDto> listarRecebimentos(RecebimentoFiltroDto filtro) {
+
         Specification<RecebimentoEntity> spec = RecebimentoEspecificacao.comFiltro(filtro);
 
 
@@ -198,6 +199,16 @@ public class FinanceiroService {
 
         return contas.stream()
                 .map(ContasPagarRespostaDto::de)
+                .toList();
+
+    }
+
+    public List<RecebimentoRespostaDto> listarRecebimentoPorAluno(Long id){
+
+        List<RecebimentoEntity> recebimentosAluno = recebimentoRepository.findByAlunoId(id);
+
+        return recebimentosAluno.stream()
+                .map(RecebimentoRespostaDto::de)
                 .toList();
 
     }

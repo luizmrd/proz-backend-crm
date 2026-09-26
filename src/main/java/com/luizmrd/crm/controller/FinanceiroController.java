@@ -1,6 +1,8 @@
 package com.luizmrd.crm.controller;
 
 import com.luizmrd.crm.commom.ApiResponse;
+import com.luizmrd.crm.database.model.AlunoEntity;
+import com.luizmrd.crm.database.model.RecebimentoEntity;
 import com.luizmrd.crm.dto.financeiro.*;
 import com.luizmrd.crm.dto.inscricao.FinanceiroResumoDto;
 import com.luizmrd.crm.service.FinanceiroService;
@@ -72,6 +74,14 @@ public class FinanceiroController {
         return ResponseEntity.ok(ApiResponse.of(contas));
     }
 
+    @GetMapping("/recebimentos/aluno/{id}")
+    public ResponseEntity<ApiResponse<List<RecebimentoRespostaDto>>> listarRecebimentoPorAluno(@PathVariable Long id){
 
+        List<RecebimentoRespostaDto> recebimentos = financeiroService.listarRecebimentoPorAluno(id);
+
+        return ResponseEntity.ok(ApiResponse.of(recebimentos));
+
+
+    }
 
 }

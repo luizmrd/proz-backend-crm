@@ -2,7 +2,7 @@ spring:
   application:
     name: crm
   datasource:
-    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB}?sslmode=require&prepareThreshold=0
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     driver-class-name: org.postgresql.Driver

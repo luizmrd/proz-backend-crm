@@ -10,11 +10,13 @@ import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IInscricaoRepository;
 import com.luizmrd.crm.database.repository.IPlanoRepository;
+import com.luizmrd.crm.database.repository.IRecebimentoRepository;
 import com.luizmrd.crm.dto.aluno.AlunoPerfilAtualizarRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRiscoEvasaoResponseDto;
 import com.luizmrd.crm.dto.aluno.AlunoResumoResponseDto;
+import com.luizmrd.crm.dto.financeiro.RecebimentoRespostaDto;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.service.especificacao.AlunoEspecificacao;
 import jakarta.transaction.Transactional;
@@ -36,13 +38,15 @@ public class AlunoService {
     public final CodigoAcessoCurto codigoAcessoCurto;
     public final IPlanoRepository planoRepository;
     public final IInscricaoRepository inscricaoRepository;
+    public final IRecebimentoRepository recebimentoRepository;
 
     public AlunoService(IAlunoRepository alunoRepository,CodigoAcessoCurto codigoAcessoCurto, IPlanoRepository planoRepository,
-                        IInscricaoRepository inscricaoRepository){
+                        IInscricaoRepository inscricaoRepository, IRecebimentoRepository recebimentoRepository){
         this.alunoRepository = alunoRepository;
         this.codigoAcessoCurto = codigoAcessoCurto;
         this.planoRepository = planoRepository;
         this.inscricaoRepository = inscricaoRepository;
+        this.recebimentoRepository = recebimentoRepository;
     }
 
 
@@ -165,4 +169,7 @@ public class AlunoService {
         );
 
     }
+
+
+
 }

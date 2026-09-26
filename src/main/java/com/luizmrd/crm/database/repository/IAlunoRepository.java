@@ -17,4 +17,5 @@ public interface IAlunoRepository extends JpaRepository<AlunoEntity, Long>, JpaS
 
     List<AlunoEntity> findByStatusEnum(StatusEnum statusEnum);
 
+
 }

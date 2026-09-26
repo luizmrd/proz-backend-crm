@@ -28,4 +28,8 @@ public interface IRecebimentoRepository extends JpaRepository<RecebimentoEntity,
     );
 
     List<RecebimentoEntity> findByStatusPagamento(StatusPagamentoEnum status);
+
+
+    List<RecebimentoEntity> findByAlunoId(Long alunoId);
+
 }

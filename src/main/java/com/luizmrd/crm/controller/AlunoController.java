@@ -7,6 +7,7 @@ import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRiscoEvasaoResponseDto;
 import com.luizmrd.crm.dto.aluno.AlunoResumoResponseDto;
+import com.luizmrd.crm.dto.financeiro.RecebimentoRespostaDto;
 import com.luizmrd.crm.service.AlunoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,5 +58,7 @@ public class AlunoController {
                                      @RequestBody AlunoPerfilAtualizarRequestDto alunoPerfilAtualizarRequestDto){
         alunoService.atualizaAluno(id, alunoPerfilAtualizarRequestDto);
     }
+
+
 
 }
