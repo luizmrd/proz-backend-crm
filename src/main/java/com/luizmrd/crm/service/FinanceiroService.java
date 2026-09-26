@@ -204,13 +204,73 @@ public class FinanceiroService {
     }
 
     public List<RecebimentoRespostaDto> listarRecebimentoPorAluno(Long id){
-
         List<RecebimentoEntity> recebimentosAluno = recebimentoRepository.findByAlunoId(id);
 
         return recebimentosAluno.stream()
                 .map(RecebimentoRespostaDto::de)
                 .toList();
 
+    }
+
+    @Transactional
+    public SituacaoFinanceiraResponseDto obterSituacaoFinanceira(Long alunoId){
+        AlunoEntity aluno = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
+
+        List<StatusPagamentoEnum> emAberto = List.of(
+                StatusPagamentoEnum.PENDENTE,
+                StatusPagamentoEnum.AGUARDANDO,
+                StatusPagamentoEnum.ATRASADO
+        );
+
+        RecebimentoEntity proximo = recebimentoRepository
+                .findFirstByAlunoIdAndStatusPagamentoInOrderByDataVencimentoAsc(alunoId, emAberto)
+                .orElse(null);
+
+        LocalDate proximoVencimento = proximo != null
+                ? proximo.getDataVencimento()
+                : calcularProximoVencimento(aluno);
+
+        StatusPagamentoEnum situacaoPlano;
+        if (proximo == null) {
+            situacaoPlano = aluno.getStatusPagamento();
+        } else if (proximo.getDataVencimento().isBefore(LocalDate.now())) {
+            situacaoPlano = StatusPagamentoEnum.ATRASADO;
+        } else {
+            situacaoPlano = proximo.getStatusPagamento();
+        }
+
+        String planoAtual = aluno.getPlano() != null ? aluno.getPlano().getNome() : null;
+        BigDecimal valorMensal = aluno.getValorMensal() != null
+                ? aluno.getValorMensal()
+                : (aluno.getPlano() != null ? aluno.getPlano().getValorPadrao() : null);
+
+        return new SituacaoFinanceiraResponseDto(
+                aluno.getId(),
+                aluno.getNome(),
+                planoAtual,
+                valorMensal,
+                proximoVencimento,
+                situacaoPlano
+        );
+    }
+
+    private LocalDate calcularProximoVencimento(AlunoEntity aluno){
+        ContratoEntity contrato = contratoRepository.findByAlunoId(aluno.getId()).orElse(null);
+        Integer dia = contrato != null ? contrato.getDiaVencimentoMensalidade() : aluno.getDiaVencimento();
+        if (dia == null) {
+            return null;
+        }
+
+        YearMonth mes = YearMonth.now();
+        int diaAjustado = Math.min(dia, mes.lengthOfMonth());
+        LocalDate vencimento = mes.atDay(diaAjustado);
+        if (vencimento.isBefore(LocalDate.now())) {
+            mes = mes.plusMonths(1);
+            diaAjustado = Math.min(dia, mes.lengthOfMonth());
+            vencimento = mes.atDay(diaAjustado);
+        }
+        return vencimento;
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface IRecebimentoRepository extends JpaRepository<RecebimentoEntity, Long> , JpaSpecificationExecutor<RecebimentoEntity> {
 
@@ -31,5 +32,8 @@ public interface IRecebimentoRepository extends JpaRepository<RecebimentoEntity,
 
 
     List<RecebimentoEntity> findByAlunoId(Long alunoId);
+
+    Optional<RecebimentoEntity> findFirstByAlunoIdAndStatusPagamentoInOrderByDataVencimentoAsc(
+            Long alunoId, List<StatusPagamentoEnum> statusPagamentos);
 
 }

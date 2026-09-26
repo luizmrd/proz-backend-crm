@@ -84,4 +84,10 @@ public class FinanceiroController {
 
     }
 
+    @GetMapping("/alunos/{id}/situacao-financeira")
+    public ResponseEntity<ApiResponse<SituacaoFinanceiraResponseDto>> obterSituacaoFinanceira(@PathVariable Long id){
+        SituacaoFinanceiraResponseDto situacao = financeiroService.obterSituacaoFinanceira(id);
+        return ResponseEntity.ok(ApiResponse.of(situacao));
+    }
+
 }
