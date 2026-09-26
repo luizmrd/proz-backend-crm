@@ -10,6 +10,7 @@ import com.luizmrd.crm.database.repository.IContratoRepository;
 import com.luizmrd.crm.database.repository.IHistoricoPagamentoRepository;
 import com.luizmrd.crm.dto.contrato.ContratoAtualizarRequestDto;
 import com.luizmrd.crm.dto.contrato.ContratoDto;
+import com.luizmrd.crm.exception.BadRequestException;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,10 @@ public class ContratoService {
 
         AlunoEntity aluno = alunoRepository.findById(contratoDto.aluno())
                 .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+
+        if (contratoRepository.findByAlunoId(contratoDto.aluno()).isPresent()) {
+            throw new BadRequestException("O aluno já possui um contrato");
+        }
 
         String assinaturaDigital = codigoHash.gerarHash(contratoDto.assinaturaDigital());
 
