@@ -62,4 +62,9 @@ public class PlanoController {
         planoService.excluirPlano(id);
     }
 
+    @PatchMapping("vincular-plano/aluno/{alunoId}/plano/{planoId}")
+    public void atualizarPlanoNoAluno(@PathVariable Long alunoId, @PathVariable Long planoId){
+    planoService.atualizarNovoPlanoNoAluno(alunoId,planoId);
+    }
+
 }

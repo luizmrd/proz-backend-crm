@@ -1,6 +1,8 @@
 package com.luizmrd.crm.service;
 
+import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.PlanoEntity;
+import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IPlanoRepository;
 import com.luizmrd.crm.dto.plano.PlanoAtualizarRequestDto;
 import com.luizmrd.crm.dto.plano.PlanoRequestDto;
@@ -16,9 +18,11 @@ public class PlanoService {
 
 
     private final IPlanoRepository planoRepository;
+    private final IAlunoRepository alunoRepository;
 
-    public PlanoService(IPlanoRepository planoRepository){
+    public PlanoService(IPlanoRepository planoRepository, IAlunoRepository alunoRepository){
         this.planoRepository = planoRepository;
+        this.alunoRepository = alunoRepository;
     }
 
    public void criarPlano(PlanoRequestDto planoRequestDto){
@@ -76,6 +80,20 @@ public class PlanoService {
     public void excluirPlano(Long id) {
         PlanoEntity plano = buscarPlano(id);
         planoRepository.delete(plano);
+    }
+
+    @Transactional
+    public void atualizarNovoPlanoNoAluno(Long alunoId, Long planoId){
+
+        AlunoEntity aluno = alunoRepository.findById(alunoId)
+                .orElseThrow(() -> new BadRequestException("Aluno não encontrado"));
+        PlanoEntity plano = planoRepository.findById(planoId)
+                .orElseThrow(() -> new BadRequestException("Plano não encontrado"));
+
+        aluno.setPlano(plano);
+
+        alunoRepository.save(aluno);
+
     }
 
 
