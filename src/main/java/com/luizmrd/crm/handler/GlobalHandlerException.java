@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @RestControllerAdvice
 public class GlobalHandlerException {
@@ -51,5 +52,15 @@ public class GlobalHandlerException {
                 null
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(resp);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ErrorResponse> handlerTypeMismatch(MethodArgumentTypeMismatchException ex){
+        ErrorResponse resp = ErrorResponse.of(
+                "PARAMETRO_INVALIDO",
+                "Valor inválido para o parâmetro '" + ex.getName() + "': " + ex.getValue(),
+                null
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
     }
 }
