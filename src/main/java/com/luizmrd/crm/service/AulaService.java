@@ -11,6 +11,7 @@ import com.luizmrd.crm.database.repository.IAulaRepository;
 import com.luizmrd.crm.database.repository.IInscricaoRepository;
 import com.luizmrd.crm.dto.aula.AulaFiltroRequesDto;
 import com.luizmrd.crm.dto.aula.AulaRequestDto;
+import com.luizmrd.crm.dto.aula.AulaRespostaDto;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.service.especificacao.AulaEspecificacao;
 import jakarta.transaction.Transactional;
@@ -120,8 +121,11 @@ public class AulaService {
     }
 
 
-    public List<AulaEntity> buscarAulasFiltro(AulaFiltroRequesDto filtro){
-        return aulaRepository.findAll(AulaEspecificacao.comFiltro(filtro));
+    @Transactional
+    public List<AulaRespostaDto> buscarAulasFiltro(AulaFiltroRequesDto filtro){
+        return aulaRepository.findAll(AulaEspecificacao.comFiltro(filtro)).stream()
+                .map(AulaRespostaDto::de)
+                .toList();
     }
 
 

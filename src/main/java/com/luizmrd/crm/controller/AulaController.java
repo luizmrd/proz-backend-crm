@@ -42,11 +42,7 @@ public class AulaController {
     @GetMapping
     public ApiResponse<List<AulaRespostaDto>> buscarAulasFiltro(@ModelAttribute AulaFiltroRequesDto filtro) {
 
-        List<AulaEntity> aulas = aulaService.buscarAulasFiltro(filtro);
-
-        List<AulaRespostaDto> dtos = aulas.stream()
-                .map(AulaRespostaDto::de)
-                .toList();
+        List<AulaRespostaDto> dtos = aulaService.buscarAulasFiltro(filtro);
 
         return ApiResponse.of(dtos);
     }

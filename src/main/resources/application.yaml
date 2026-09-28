@@ -14,9 +14,12 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        default_batch_fetch_size: 50
 app:
   jwt:
-    secret: ${JWT_SECRET}
+    secret: ${JWT_SECRET:LOwzgN8bqnR9AW6xHoF14YQXdJ5hIUKD2}
     expiracao-segundos: ${JWT_EXPIRACAO_SEGUNDOS}
   admin:
     nome: ${ADMIN_NOME}

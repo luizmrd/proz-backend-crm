@@ -40,12 +40,12 @@ public class AulaEspecificacao {
 
             if (dataInicio != null) {
 
-                predicates.add(cb.greaterThanOrEqualTo(root.get("horarioInicio"), dataInicio));
+                predicates.add(cb.greaterThanOrEqualTo(root.get("dataInicio"), dataInicio));
             }
 
             if (dataFim != null) {
 
-                predicates.add(cb.lessThanOrEqualTo(root.get("horarioFim"), dataFim));
+                predicates.add(cb.lessThanOrEqualTo(root.get("dataFim"), dataFim));
             }
 
             if (predicates.isEmpty()) {
@@ -62,7 +62,7 @@ public class AulaEspecificacao {
                 return null;
             }
 
-            return cb.equal(cb.upper(root.get("status").as(String.class)), status.toUpperCase());
+            return cb.equal(cb.upper(root.get("statusAula").as(String.class)), status.toUpperCase());
         };
     }
 
