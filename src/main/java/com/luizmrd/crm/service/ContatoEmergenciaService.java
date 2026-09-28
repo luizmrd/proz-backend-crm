@@ -11,7 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ContatoEmergenciaService {
+public class  ContatoEmergenciaService {
 
     private final IContatoEmergenciaRepository contatoEmergenciaRepository;
     private final IAlunoRepository alunoRepository;
