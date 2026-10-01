@@ -6,6 +6,7 @@ import com.luizmrd.crm.dto.contrato.ContratoAtualizarRequestDto;
 import com.luizmrd.crm.dto.contrato.ContratoDto;
 import com.luizmrd.crm.dto.contrato.ContratoResponseDto;
 import com.luizmrd.crm.service.ContratoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/contratos")
+@Tag(name = "Contratos", description = "Gerenciamento de contratos")
 public class ContratoController {
 
     private final ContratoService contratoService;

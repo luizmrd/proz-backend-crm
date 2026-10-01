@@ -6,6 +6,7 @@ import com.luizmrd.crm.dto.plano.PlanoAtualizarRequestDto;
 import com.luizmrd.crm.dto.plano.PlanoRequestDto;
 import com.luizmrd.crm.dto.plano.PlanoResponseDto;
 import com.luizmrd.crm.service.PlanoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/plano")
+@Tag(name = "Planos", description = "Gerenciamento de planos e vínculo com alunos")
 public class PlanoController {
 
     public final PlanoService planoService;

@@ -6,6 +6,7 @@ import com.luizmrd.crm.dto.aula.AulaFiltroRequesDto;
 import com.luizmrd.crm.dto.aula.AulaRequestDto;
 import com.luizmrd.crm.dto.aula.AulaRespostaDto;
 import com.luizmrd.crm.service.AulaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/aulas")
+@Tag(name = "Aulas", description = "Gerenciamento de aulas, inscrições e presenças")
 public class AulaController {
 
     public final AulaService aulaService;

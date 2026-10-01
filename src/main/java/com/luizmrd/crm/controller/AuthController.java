@@ -6,12 +6,14 @@ import com.luizmrd.crm.dto.auth.LoginRequestDto;
 import com.luizmrd.crm.dto.auth.LoginResponseDto;
 import com.luizmrd.crm.dto.auth.UsuarioAutenticadoDto;
 import com.luizmrd.crm.service.AuthService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/auth")
+@Tag(name = "Autenticação", description = "Login, logout e dados do usuário autenticado")
 public class AuthController {
 
     private final AuthService authService;

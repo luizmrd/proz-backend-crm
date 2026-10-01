@@ -5,12 +5,14 @@ import com.luizmrd.crm.dto.endereco.EnderecoAtualizarRequestDto;
 import com.luizmrd.crm.dto.endereco.EnderecoRequestDto;
 import com.luizmrd.crm.dto.endereco.EnderecoResponseDto;
 import com.luizmrd.crm.service.EnderecoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/enderecos")
+@Tag(name = "Endereços", description = "Gerenciamento de endereços dos alunos")
 public class EnderecoController {
 
     private final EnderecoService enderecoService;

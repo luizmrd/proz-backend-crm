@@ -5,12 +5,14 @@ import com.luizmrd.crm.dto.contatoemergencia.ContatoEmergenciaAtualizarRequestDt
 import com.luizmrd.crm.dto.contatoemergencia.ContatoEmergenciaRequestDto;
 import com.luizmrd.crm.dto.contatoemergencia.ContatoEmergenciaResponseDto;
 import com.luizmrd.crm.service.ContatoEmergenciaService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/contatos-emergencia")
+@Tag(name = "Contatos de Emergência", description = "Gerenciamento de contatos de emergência dos alunos")
 public class ContatoEmergenciaController {
 
     private final ContatoEmergenciaService contatoEmergenciaService;

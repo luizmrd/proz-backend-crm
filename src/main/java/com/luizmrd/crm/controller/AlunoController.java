@@ -10,6 +10,7 @@ import com.luizmrd.crm.dto.aluno.AlunoRiscoEvasaoResponseDto;
 import com.luizmrd.crm.dto.aluno.AlunoResumoResponseDto;
 import com.luizmrd.crm.dto.financeiro.RecebimentoRespostaDto;
 import com.luizmrd.crm.service.AlunoService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/alunos")
+@Tag(name = "Alunos", description = "Gerenciamento de alunos")
 public class AlunoController {
 
     public final AlunoService alunoService;

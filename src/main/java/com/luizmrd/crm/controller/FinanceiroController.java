@@ -6,6 +6,7 @@ import com.luizmrd.crm.database.model.RecebimentoEntity;
 import com.luizmrd.crm.dto.financeiro.*;
 import com.luizmrd.crm.dto.inscricao.FinanceiroResumoDto;
 import com.luizmrd.crm.service.FinanceiroService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/financeiro")
+@Tag(name = "Financeiro", description = "Recebimentos, contas a pagar e fluxo de caixa")
 public class FinanceiroController {
 
     private final FinanceiroService financeiroService;
