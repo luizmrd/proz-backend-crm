@@ -81,18 +81,16 @@ Em comparação com a primeira versão deste relatório (16/09), o projeto evolu
 
 ---
 
-## 6. Pontos de Atenção e Oportunidades de Melhoria (Bugs / Débitos Técnicos)
+## 6. Melhorias Recentes Aplicadas
 
-1. **Status HTTP incorreto em `AlunoController.java` (linha 65):**
-   - O endpoint `PUT /api/v1/alunos/{id}` está anotado com `@ResponseStatus(HttpStatus.UPGRADE_REQUIRED)` (HTTP **426**), quando deveria ser `HttpStatus.OK` (200) ou `HttpStatus.NO_CONTENT` (204).
-2. **Import incorreto de exceção em `FinanceiroController.java` (linha 10):**
-   - Importa `org.apache.coyote.BadRequestException` na assinatura de `quitarRecebimento`, embora o `FinanceiroService` lance `com.luizmrd.crm.exception.BadRequestException`.
-3. **Exceções não padronizadas em pontos específicos de Services:**
-   - `FinanceiroService.criarRecebimento` (linhas 52 e 55) lança `new RuntimeException(...)` em vez de `ResourceNotFoundException`, fazendo com que erros de aluno/contrato inexistente retornem erro 500 em vez de 404 tratado pelo `GlobalHandlerException`.
-   - `AlunoService.criarAluno` (linhas 145 e 148) lança `ResourceNotFoundException` (404) quando CPF ou e-mail já estão em uso, situação em que `BadRequestException` (400) ou `409 Conflict` seria semanticamente mais adequado.
-4. **Ausência de Bean Validation (`@Valid`):**
-   - Os DTOs de entrada não utilizam anotações do Jakarta Validation (`@NotBlank`, `@Email`, `@NotNull`, `@Positive`) nem `@Valid` nos controllers.
-5. **Logs de debug residuais:**
-   - `AlunoService.java` (linha 158) ainda contém `System.out.println("Já existe? " + ...)`.
-6. **Cobertura de Testes Automatizados:**
-   - O projeto possui apenas o teste básico `CrmApplicationTests` (`contextLoads`), sem testes unitários ou de integração para as regras de negócio (como risco de evasão e cálculos financeiros).
+1. **Status HTTP e Imports Corrigidos (`fix/controllers-status-e-imports`):**
+   - `PUT /api/v1/alunos/{id}` em `AlunoController` corrigido de `426 UPGRADE_REQUIRED` para `200 OK`.
+   - Removido o import incorreto `org.apache.coyote.BadRequestException` em `FinanceiroController`.
+2. **Padronização de Exceções e Limpeza (`fix/padronizacao-excecoes-services`):**
+   - Substituídas ocorrências de `RuntimeException` genérica por `ResourceNotFoundException` (404) em `FinanceiroService`, `AulaService` e `ContratoService`.
+   - Ajustadas validações de conflito/regra de negócio para lançar `BadRequestException` (400) em `AlunoService`, `AulaService` e `UsuarioService`, e `ResourceNotFoundException` (404) em `PlanoService`.
+   - Removido log de debug `System.out.println` em `AlunoService`.
+3. **Validação de Entrada com Bean Validation (`feat/validacao-dtos`):**
+   - Adicionado `spring-boot-starter-validation` ao `pom.xml`, anotações `@NotBlank`, `@NotNull`, `@Email`, `@Positive`, `@Min`/`@Max` nos DTOs de requisição, `@Valid` nos controllers e tratamento de `MethodArgumentNotValidException` no `GlobalHandlerException`.
+4. **Cobertura de Testes Unitários (`test/testes-unitarios`):**
+   - Adicionados testes unitários com JUnit 5 e Mockito para `AlunoServiceTest`, `AulaServiceTest` e `FinanceiroServiceTest` (10 cenários de negócio testados e aprovados).
