@@ -12,6 +12,7 @@ import com.luizmrd.crm.database.repository.IInscricaoRepository;
 import com.luizmrd.crm.dto.aula.AulaFiltroRequesDto;
 import com.luizmrd.crm.dto.aula.AulaRequestDto;
 import com.luizmrd.crm.dto.aula.AulaRespostaDto;
+import com.luizmrd.crm.exception.BadRequestException;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.service.especificacao.AulaEspecificacao;
 import jakarta.transaction.Transactional;
@@ -48,7 +49,7 @@ public class AulaService {
 
     public AulaEntity bucarAulaPorId(Long id) {
         return aulaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Aula não encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Aula não encontrada"));
     }
 
     public void atualizarAula(Long id, AulaRequestDto aula) {
@@ -80,11 +81,11 @@ public class AulaService {
         boolean jaInscrito = aula.getInscricoes().stream()
                 .anyMatch(inscricao -> inscricao.getAluno().getId().equals(aluno.getId()));
         if (jaInscrito) {
-            throw new ResourceNotFoundException("Aluno já inscrito na aula");
+            throw new BadRequestException("Aluno já inscrito na aula");
         }
 
         if (aula.getInscricoes().size() >= aula.getLimiteVagas()) {
-            throw new ResourceNotFoundException("Aula já atingiu o limite de vagas");
+            throw new BadRequestException("Aula já atingiu o limite de vagas");
         }
 
 
@@ -95,7 +96,7 @@ public class AulaService {
                             ((aulaInscrita.getDataInicio().isBefore(aula.getDataFim()) && aulaInscrita.getDataFim().isAfter(aula.getDataInicio())));
                 });
         if (possuiConflitoDeHorario) {
-            throw new ResourceNotFoundException("Aluno já possui uma aula nesse horário");
+            throw new BadRequestException("Aluno já possui uma aula nesse horário");
     }
         InscricaoEntity inscricao = InscricaoEntity.builder()
                 .aluno(aluno)
