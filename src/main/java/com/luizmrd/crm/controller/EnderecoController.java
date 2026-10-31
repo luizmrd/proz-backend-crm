@@ -6,6 +6,7 @@ import com.luizmrd.crm.dto.endereco.EnderecoRequestDto;
 import com.luizmrd.crm.dto.endereco.EnderecoResponseDto;
 import com.luizmrd.crm.service.EnderecoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class EnderecoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarEndereco(@RequestBody EnderecoRequestDto endereco) {
+    public void criarEndereco(@Valid @RequestBody EnderecoRequestDto endereco) {
         enderecoService.criarEndereco(endereco);
     }
 

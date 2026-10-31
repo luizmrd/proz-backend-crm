@@ -7,6 +7,7 @@ import com.luizmrd.crm.dto.aula.AulaRequestDto;
 import com.luizmrd.crm.dto.aula.AulaRespostaDto;
 import com.luizmrd.crm.service.AulaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,7 @@ public class AulaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarAluno(@RequestBody AulaRequestDto aula){
+    public void criarAluno(@Valid @RequestBody AulaRequestDto aula){
         aulaService.criarAula(aula);
     }
 
@@ -50,7 +51,7 @@ public class AulaController {
     }
 
     @PatchMapping
-    public void atualizarAula(@RequestParam Long id, @RequestBody AulaRequestDto aula){
+    public void atualizarAula(@RequestParam Long id, @Valid @RequestBody AulaRequestDto aula){
         aulaService.atualizarAula(id, aula);
     }
 

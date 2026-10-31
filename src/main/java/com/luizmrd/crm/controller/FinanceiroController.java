@@ -5,6 +5,7 @@ import com.luizmrd.crm.dto.financeiro.*;
 import com.luizmrd.crm.dto.inscricao.FinanceiroResumoDto;
 import com.luizmrd.crm.service.FinanceiroService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,20 +25,20 @@ public class FinanceiroController {
 
     @PostMapping("/recebimento")
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarRecebimento(@RequestBody RecebimentoRequestDto recebimento) {
+    public void criarRecebimento(@Valid @RequestBody RecebimentoRequestDto recebimento) {
         financeiroService.criarRecebimento(recebimento);
     }
 
 
     @PostMapping("/recebimento/quitar/{id}")
-    public ResponseEntity<ApiResponse<RecebimentoQuitadoResponseDto>> quitarRecebimento (@PathVariable Long id, @RequestBody RecebimentoQuitarRequestDto recebimento) {
+    public ResponseEntity<ApiResponse<RecebimentoQuitadoResponseDto>> quitarRecebimento (@PathVariable Long id, @Valid @RequestBody RecebimentoQuitarRequestDto recebimento) {
         RecebimentoQuitadoResponseDto response =financeiroService.quitarRecebimento(id,recebimento);
        return ResponseEntity.ok(ApiResponse.of(response));
     }
 
     @PostMapping("/contas-pagar")
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarContasPagar(@RequestBody ContasPagarRequestDto contas){
+    public void criarContasPagar(@Valid @RequestBody ContasPagarRequestDto contas){
         financeiroService.criarContasPagar(contas);
     }
 
