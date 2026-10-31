@@ -1,78 +1,98 @@
 # Relatório do Projeto — CRM Academia
 
-## 1. Visão geral
+## 1. Visão Geral
 
-Backend de um CRM para gestão de academias de artes marciais, desenvolvido como TCC. É uma API REST em **Java 21 + Spring Boot**, com persistência em **PostgreSQL** e documentação via **Swagger/OpenAPI**. O repositório é somente o backend — o frontend é um projeto separado que consome esta API.
+Backend de um sistema de gestão interna (CRM) para academias de artes marciais, desenvolvido como **Trabalho de Conclusão de Curso (TCC)**. Trata-se de uma API REST stateless em **Java 21 + Spring Boot**, com persistência em **PostgreSQL**, autenticação via **JWT**, documentação interativa com **Swagger/OpenAPI** e containerização com **Docker**.
 
 - **Repositório:** `/home/luiz/Documentos/Projects/crm`
 - **Pacote raiz:** `com.luizmrd.crm`
-- **Build:** Maven (`mvnw`)
-- **Commits:** 36 (primeiro em 22/08, último em 15/09)
-- **Código principal:** ~2.100 linhas Java em 63 arquivos
+- **Gerenciador de build:** Maven (`./mvnw`)
+- **Histórico Git:** 67 commits (início em 22/08/2026)
+- **Volume de código:** ~4.250 linhas de código Java distribuídas em 116 arquivos
 
-## 2. Stack técnica (real x documentada)
+---
 
-| Item | Estado |
-|---|---|
-| Java 21 / Spring Boot | ✅ presentes |
-| Spring Web MVC / Spring Data JPA | ✅ presentes |
-| PostgreSQL + Hibernate | ✅ configurado (`ddl-auto: update`) |
-| Lombok | ✅ em uso |
-| SpringDoc/Swagger | ✅ dependência incluída, porém **sem configuração** |
-| Spring Security / JWT / RBAC | ❌ **documentado no README, mas NÃO implementado** |
-| Frontend | ❌ não presente neste repo |
+## 2. Stack Tecnológica e Infraestrutura
 
-## 3. Arquitetura
+| Tecnologia / Recurso | Versão / Configuração | Estado Atual |
+|---|---|---|
+| **Java** | 21 (com **Virtual Threads** habilitadas) | ✅ Configurado (`spring.threads.virtual.enabled=true`) |
+| **Spring Boot** | 4.0.8 (`spring-boot-starter-parent`) | ✅ Em uso |
+| **Spring Web MVC** | REST API (`/api/v1/...`) | ✅ Implementado (9 controllers) |
+| **Spring Data JPA / Hibernate** | `ddl-auto: update`, `default_batch_fetch_size: 50` | ✅ Implementado (11 entidades, 11 repositórios, 4 Specifications) |
+| **PostgreSQL + HikariCP** | Pool: `max=10`, `min-idle=2`, `prepareThreshold=0` | ✅ Configurado |
+| **Spring Security + JJWT** | `0.12.6` (Stateless + `BCryptPasswordEncoder` + RBAC) | ✅ Implementado |
+| **SpringDoc OpenAPI (Swagger)** | `3.0.2` com esquema Bearer JWT (`OpenApiConfig`) | ✅ Configurado |
+| **Lombok** | Redução de boilerplate (`@Builder`, `@Getter`, `@Setter`) | ✅ Em uso |
+| **Docker / Docker Compose** | Multi-stage build (JDK 21 Alpine → JRE 21 Alpine) + Postgres 16 | ✅ Configurado |
 
-Organização em camadas, por módulo de domínio:
+---
 
-```
-controller → service → repository (Spring Data) → entity
-                 ↘ dto (request/response)
-```
+## 3. Arquitetura e Organização de Pacotes
 
-- **6 controllers**, **9 services** (inclui `especificacao/` com Specifications para filtros), **9 entidades JPA**, **22 DTOs**, **9 repositórios**.
-- `GlobalHandlerException` (`@RestControllerAdvice`) centraliza erros (`BadRequestException`, `ResourceNotFoundException`).
-- Endpoints base: `api/v1/alunos`, `/aulas`, `/contratos`, `/plano`, `/financeiro`, `/usuarios`.
+O sistema segue a arquitetura em camadas (`Controller → Service → Repository → Entity`), organizada sob `com.luizmrd.crm`:
 
-## 4. Módulos implementados
+- **`controller/` (9 classes):** Exposição das rotas REST sob o prefixo `/api/v1` com uso de DTOs e envelopes `ApiResponse<T>` e `PageResponse<T>`.
+- **`service/` (9 classes + 4 Specifications):** Regras de negócio, cálculos financeiros, análise de risco de evasão e filtros dinâmicos (`AlunoEspecificacao`, `AulaEspecificacao`, `RecebimentoEspecificacao`, `UsuarioEspecificacao`).
+- **`database/model/` (11 entidades + 9 enums):** Modelo de domínio relacional mapeado via JPA (`AlunoEntity`, `AulaEntity`, `InscricaoEntity`, `PlanoEntity`, `ContratoEntity`, `RecebimentoEntity`, `ContasPagarEntity`, `HistoricoPagamentoEntity`, `EnderecoEntity`, `ContatoEmergenciaEntity`, `UsuarioEntity`).
+- **`database/repository/` (11 interfaces):** Repositórios Spring Data JPA com suporte a `JpaSpecificationExecutor` e queries customizadas (`@Query`).
+- **`dto/` (45 classes/records):** Objetos de transferência de dados organizados por subpacote de domínio (`aluno`, `aula`, `auth`, `contatoemergencia`, `contrato`, `endereco`, `financeiro`, `inscricao`, `plano`, `usuario`).
+- **`config/` (7 classes):** Segurança (`SecurityConfig`, `JwtService`, `JwtAuthenticationFilter`), bootstrap de usuário admin (`AdminInitializer`), documentação (`OpenApiConfig`) e geradores (`CodigoAcessoCurto`, `CodigoHash`).
+- **`exception/` e `handler/` (7 classes):** Tratamento centralizado de erros (`GlobalHandlerException`, `RestAuthenticationEntryPoint`, `RestAccessDeniedHandler`) retornando o padrão `ErrorResponse`.
+- **`commom/` e `util/` (4 classes):** Envelopes padronizados de resposta (`ApiResponse`, `PageResponse`) e utilitários (`DiaVencimentoUtil`, `ReciboUtil`).
 
-- **Aluno** — CRUD parcial, busca com filtros (Specification), geração de código de acesso aleatório, snapshot do valor do plano.
-- **Aula** — criação, busca por filtro, atualização, cancelamento, inscrição/remoção de aluno, lançamento de presença.
-- **Contrato** — apenas `POST /contratos`.
-- **Plano** — apenas `POST /plano` (catálogo).
-- **Financeiro** — criar/quitar recebimento, criar contas a pagar.
-- **Usuário** — criar, atualizar perfil/permissões, ativar/desativar, busca por filtro.
+---
 
-## 5. Estado do roadmap (README x código)
+## 4. Módulos e Funcionalidades Implementadas
 
-O README descreve o sistema como praticamente completo, mas o código está em estágio inicial e diverge em pontos relevantes:
+1. **Autenticação e Segurança (`/api/v1/auth`):**
+   - Login (`POST /login`) gerando token JWT stateless com claims de `nome` e `perfil`.
+   - Consulta de usuário logado (`GET /me`) e endpoint de logout (`POST /logout`).
+   - Criação automática de administrador inicial via `AdminInitializer`.
+2. **Alunos (`/api/v1/alunos`):**
+   - Criação de aluno com geração de código de acesso curto único (8 caracteres) e snapshot do `valorPadrao` do plano para `valorMensal`.
+   - Busca com filtros dinâmicos (Specification) + filtro de risco de evasão.
+   - Monitoramento de **risco de evasão** (`GET /risco-evasao`) baseado em mensalidade atrasada (`MENSALIDADE_ATRASADA`) e ausência de treinos há mais de 15 dias (`SEM_FREQUENCIA`).
+   - Listagem geral (`/cadastrados`), busca por ID e atualização de perfil.
+3. **Aulas, Inscrições e Presenças (`/api/v1/aulas`):**
+   - Criação, atualização parcial, cancelamento e busca de aulas com filtros.
+   - Inscrição e cancelamento de inscrição de alunos em aulas, além de lançamento de presença (`PRESENTE`).
+4. **Financeiro (`/api/v1/financeiro`):**
+   - **Recebimentos:** Criação vinculada ao vencimento do contrato, quitação com emissão de recibo e atualização do status do aluno, listagem com filtros, atrasados e por aluno.
+   - **Contas a pagar:** Criação, quitação com geração de comprovante e listagem de pendentes/aguardando.
+   - **Fluxo de caixa e Situação Financeira:** Resumo mensal (`GET /resumo` com total recebido, pendente, despesas e saldo líquido) e situação financeira individual do aluno (`GET /alunos/{id}/situacao-financeira`).
+5. **Planos (`/api/v1/plano`) e Contratos (`/api/v1/contratos`):**
+   - CRUD completo com paginação (`PageResponse`) e vínculo de novo plano ao aluno (`PATCH /plano/vincular-plano/aluno/{alunoId}/plano/{planoId}`).
+6. **Endereços (`/api/v1/enderecos`) e Contatos de Emergência (`/api/v1/contatos-emergencia`):**
+   - Cadastro, consulta por ID ou por `alunoId`, e atualização (`PUT`/`PATCH`).
+7. **Usuários (`/api/v1/usuarios`):**
+   - Restrito ao perfil `ADMINISTRADOR` via `@PreAuthorize("hasRole('ADMINISTRADOR')")`.
+   - Criação com hash BCrypt, atualização de perfil e permissões, ativação/desativação e busca com filtros.
 
-| Recurso descrito no README | Situação real |
-|---|---|
-| Autenticação `/auth/login`, `/auth/logout`, `/auth/me` | ❌ inexistente |
-| JWT + `JwtAuthFilter` + RBAC com `@PreAuthorize` | ❌ inexistente (`spring-boot-starter-security` comentado no `pom.xml`) |
-| Senhas com `BCryptPasswordEncoder` | ❌ usa **SHA-256** (`CodigoHash`) |
-| Regra de "DTO sempre, nunca entidade" | ⚠️ violada em `AlunoController.buscarAlunosComFiltro` (retorna `List<AlunoEntity>`) |
-| Validação com `@NotBlank`/`@Email`/`@Size` + `@Valid` | ❌ nenhuma anotação (`0` ocorrências) |
-| Envelope de resposta `{ "data": {...} }` | ❌ não implementado |
-| Formato de erro com `code`/`message`/`details` | ⚠️ parcial (só `message`/`status`) |
-| Módulo financeiro com resumo/atrasados/contas listar | ⚠️ só criar recebimento, quitar e criar conta a pagar |
-| Perfis de acesso e matriz de permissões | ❌ não aplicável (sem segurança) |
+---
 
-## 6. Pontos de atenção / possíveis bugs
+## 5. Evolução Recente do Projeto
 
-- `AlunoController.java:45` — `PUT /alunos/{id}` responde `HttpStatus.UPGRADE_REQUIRED` (**426**), claramente incorreto (deveria ser 200/204).
-- `AulaController.java:54` — `PATCH /aulas` usa `@RequestParam Long id` em vez de `/{id}`; inconsistente com o restante da API.
-- `AlunoController.java:28` — retorna entidades JPA diretamente, expondo o modelo de persistência (contraria o princípio central do projeto).
-- `FinanceiroService` lança `RuntimeException` genérico (linhas 46 e 49) em vez das exceções customizadas, então não caem no handler global.
-- `AlunoService.java:74` — `System.out.println` de debug deixado no código.
-- `AlunoService` cria aluno sem `diaVencimento`/`statusPagamento` default; `contrato` é opcional.
-- Sem Docker/`docker-compose`; credenciais via variáveis `DATABASE_USERNAME`/`DATABASE_PASSWORD`.
-- `pom.xml` com Spring Boot `4.0.8` (versão incomum — verificar compatibilidade) e `groupId` `com.luizmrd` divergente do `com.ctbangkok.crm` do README.
-- Testes: apenas `CrmApplicationTests.contextLoads` (nenhuma cobertura de negócio).
-- Submódulo git `proz-backend-crm~` presente, porém praticamente vazio (só README/.gitignore).
+Em comparação com a primeira versão deste relatório (16/09), o projeto evoluiu significativamente:
+- **Segurança completa implementada:** Spring Security, filtro JWT (`JwtAuthenticationFilter`), senhas com `BCryptPasswordEncoder`, handlers customizados para 401/403 e proteção de rotas.
+- **Padronização de respostas:** Todos os controllers passaram a utilizar `ApiResponse<T>` e `PageResponse<T>` sem expor entidades JPA diretamente nas respostas.
+- **Expansão de módulos:** Implementação completa dos CRUDs de `Plano`, `Contrato`, `Endereco`, `ContatoEmergencia`, novas rotas financeiras (`/resumo`, `/atrasados`, `/situacao-financeira`) e cálculo de risco de evasão de alunos.
+- **Infraestrutura e Performance:** Adição de `Dockerfile` multi-stage, `docker-compose.yml`, configuração do Swagger (`OpenApiConfig`), ajuste de pool HikariCP, batch fetching do Hibernate e **Virtual Threads** do Java 21.
 
-## 7. Conclusão
+---
 
-Projeto em fase intermediária: a **base de domínio e CRUD já existe** (alunos, aulas, financeiro, usuários, planos), com arquitetura em camadas e specifications para filtros. Contudo, a **camada de segurança/autenticação descrita no README não foi implementada**, há ausência total de validações (`@Valid`), alguns DTOs/entidades vazando entre camadas e pequenos bugs de status HTTP. Para alinhar código e documentação, as prioridades seriam: implementar segurança (JWT + RBAC), adicionar validação nos DTOs, corrigir os endpoints inconsistentes e escrever testes.
+## 6. Pontos de Atenção e Oportunidades de Melhoria (Bugs / Débitos Técnicos)
+
+1. **Status HTTP incorreto em `AlunoController.java` (linha 65):**
+   - O endpoint `PUT /api/v1/alunos/{id}` está anotado com `@ResponseStatus(HttpStatus.UPGRADE_REQUIRED)` (HTTP **426**), quando deveria ser `HttpStatus.OK` (200) ou `HttpStatus.NO_CONTENT` (204).
+2. **Import incorreto de exceção em `FinanceiroController.java` (linha 10):**
+   - Importa `org.apache.coyote.BadRequestException` na assinatura de `quitarRecebimento`, embora o `FinanceiroService` lance `com.luizmrd.crm.exception.BadRequestException`.
+3. **Exceções não padronizadas em pontos específicos de Services:**
+   - `FinanceiroService.criarRecebimento` (linhas 52 e 55) lança `new RuntimeException(...)` em vez de `ResourceNotFoundException`, fazendo com que erros de aluno/contrato inexistente retornem erro 500 em vez de 404 tratado pelo `GlobalHandlerException`.
+   - `AlunoService.criarAluno` (linhas 145 e 148) lança `ResourceNotFoundException` (404) quando CPF ou e-mail já estão em uso, situação em que `BadRequestException` (400) ou `409 Conflict` seria semanticamente mais adequado.
+4. **Ausência de Bean Validation (`@Valid`):**
+   - Os DTOs de entrada não utilizam anotações do Jakarta Validation (`@NotBlank`, `@Email`, `@NotNull`, `@Positive`) nem `@Valid` nos controllers.
+5. **Logs de debug residuais:**
+   - `AlunoService.java` (linha 158) ainda contém `System.out.println("Já existe? " + ...)`.
+6. **Cobertura de Testes Automatizados:**
+   - O projeto possui apenas o teste básico `CrmApplicationTests` (`contextLoads`), sem testes unitários ou de integração para as regras de negócio (como risco de evasão e cálculos financeiros).
