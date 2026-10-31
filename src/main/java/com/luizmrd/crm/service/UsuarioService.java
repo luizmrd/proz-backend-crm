@@ -40,7 +40,7 @@ public class UsuarioService {
             throw new BadRequestException("Já existe um usuário com este e-mail");
         }
         if (usuarioDto.cargo() == PerfilAcessoEnum.ADMINISTRADOR) {
-            throw new ResourceNotFoundException("Não é permitido criar outro usuário ADMIN");
+            throw new BadRequestException("Não é permitido criar outro usuário ADMIN");
         }
 
         String senhaCriptografada = passwordEncoder.encode(usuarioDto.senha());

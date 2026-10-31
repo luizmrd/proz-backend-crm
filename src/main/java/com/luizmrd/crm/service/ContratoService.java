@@ -40,7 +40,7 @@ public class ContratoService {
     public void criarContrato(ContratoDto contratoDto) {
 
         AlunoEntity aluno = alunoRepository.findById(contratoDto.aluno())
-                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
 
         if (contratoRepository.findByAlunoId(contratoDto.aluno()).isPresent()) {
             throw new BadRequestException("O aluno já possui um contrato");

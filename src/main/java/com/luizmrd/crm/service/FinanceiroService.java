@@ -4,8 +4,6 @@ import com.luizmrd.crm.database.model.AlunoEntity;
 import com.luizmrd.crm.database.model.ContasPagarEntity;
 import com.luizmrd.crm.database.model.ContratoEntity;
 import com.luizmrd.crm.database.model.RecebimentoEntity;
-import com.luizmrd.crm.database.model.enuns.PerfilAcessoEnum;
-import com.luizmrd.crm.database.model.enuns.StatusEnum;
 import com.luizmrd.crm.database.model.enuns.StatusPagamentoEnum;
 import com.luizmrd.crm.database.repository.IAlunoRepository;
 import com.luizmrd.crm.database.repository.IContasPagarRepository;
@@ -49,10 +47,10 @@ public class FinanceiroService {
 
     public void criarRecebimento(RecebimentoRequestDto recebimento){
         AlunoEntity aluno = alunoRepository.findById(recebimento.alunoId())
-                .orElseThrow(() -> new RuntimeException("Aluno não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
 
         ContratoEntity contrato = contratoRepository.findByAlunoId(aluno.getId())
-                .orElseThrow(() -> new RuntimeException("Contrato não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Contrato não encontrado"));
 
         Integer dia = contrato.getDiaVencimentoMensalidade();
 
@@ -71,7 +69,7 @@ public class FinanceiroService {
     }
 
     @Transactional
-    public RecebimentoQuitadoResponseDto quitarRecebimento(Long recebimentoId, RecebimentoQuitarRequestDto recebimentoRequest) throws BadRequestException {
+    public RecebimentoQuitadoResponseDto quitarRecebimento(Long recebimentoId, RecebimentoQuitarRequestDto recebimentoRequest) {
 
         RecebimentoEntity recebimento = recebimentoRepository.findById(recebimentoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Recebimento não encontrado"));
@@ -114,7 +112,7 @@ public class FinanceiroService {
     public void quitarContasPagar(Long id){
 
         ContasPagarEntity contas = contasPagarRepository.findById(id)
-                .orElseThrow(() -> new BadRequestException("Conta não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Conta não encontrada"));
 
         if (StatusPagamentoEnum.PAGO.equals(contas.getStatusPagamento())){
             throw new BadRequestException("Conta já pago");

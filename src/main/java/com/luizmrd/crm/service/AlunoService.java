@@ -16,8 +16,7 @@ import com.luizmrd.crm.dto.aluno.AlunoPerfilAtualizarRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRiscoEvasaoResponseDto;
-import com.luizmrd.crm.dto.aluno.AlunoResumoResponseDto;
-import com.luizmrd.crm.dto.financeiro.RecebimentoRespostaDto;
+import com.luizmrd.crm.exception.BadRequestException;
 import com.luizmrd.crm.exception.ResourceNotFoundException;
 import com.luizmrd.crm.service.especificacao.AlunoEspecificacao;
 import jakarta.transaction.Transactional;
@@ -142,10 +141,10 @@ public class AlunoService {
 
     public void criarAluno(AlunoRequestDto alunoRequestDto){
        if(alunoRepository.existsByCpf(alunoRequestDto.cpf())){
-           throw  new ResourceNotFoundException("Cpf já em uso!");
+           throw new BadRequestException("Cpf já em uso!");
        }
        if(alunoRepository.existsByEmail(alunoRequestDto.email())){
-           throw  new ResourceNotFoundException("Email já em uso!");
+           throw new BadRequestException("Email já em uso!");
        }
        PlanoEntity plano = planoRepository.findById(alunoRequestDto.plano())
                .orElseThrow(() -> new ResourceNotFoundException("Plano não encontrado")
@@ -154,12 +153,7 @@ public class AlunoService {
        String cod;
        do {
            cod = codigoAcessoCurto.gerar(8);
-
-           System.out.println("Já existe? " +
-                   alunoRepository.existsByCodigoAcesso(cod));
-       }while (alunoRepository.existsByCodigoAcesso(cod));
-
-       String codigoGerado = cod;
+       } while (alunoRepository.existsByCodigoAcesso(cod));
 
        alunoRepository.save(
                AlunoEntity.builder()

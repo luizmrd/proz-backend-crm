@@ -86,9 +86,9 @@ public class PlanoService {
     public void atualizarNovoPlanoNoAluno(Long alunoId, Long planoId){
 
         AlunoEntity aluno = alunoRepository.findById(alunoId)
-                .orElseThrow(() -> new BadRequestException("Aluno não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Aluno não encontrado"));
         PlanoEntity plano = planoRepository.findById(planoId)
-                .orElseThrow(() -> new BadRequestException("Plano não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Plano não encontrado"));
 
         aluno.setPlano(plano);
 
