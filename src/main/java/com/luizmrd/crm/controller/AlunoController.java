@@ -8,7 +8,6 @@ import com.luizmrd.crm.dto.aluno.AlunoFiltroRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRequestDto;
 import com.luizmrd.crm.dto.aluno.AlunoRiscoEvasaoResponseDto;
 import com.luizmrd.crm.dto.aluno.AlunoResumoResponseDto;
-import com.luizmrd.crm.dto.financeiro.RecebimentoRespostaDto;
 import com.luizmrd.crm.service.AlunoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
@@ -62,7 +61,7 @@ public class AlunoController {
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(HttpStatus.UPGRADE_REQUIRED)
+    @ResponseStatus(HttpStatus.OK)
     public void atualizarPerfilAluno(@PathVariable Long id,
                                      @RequestBody AlunoPerfilAtualizarRequestDto alunoPerfilAtualizarRequestDto){
         alunoService.atualizaAluno(id, alunoPerfilAtualizarRequestDto);
