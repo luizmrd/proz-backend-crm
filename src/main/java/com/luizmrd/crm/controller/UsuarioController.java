@@ -4,6 +4,7 @@ import com.luizmrd.crm.commom.ApiResponse;
 import com.luizmrd.crm.dto.usuario.*;
 import com.luizmrd.crm.service.UsuarioService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class UsuarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarUsuario(@RequestBody UsuarioDto usuarioDto){
+    public void criarUsuario(@Valid @RequestBody UsuarioDto usuarioDto){
         usuarioService.criarUsuario(usuarioDto);
     }
 

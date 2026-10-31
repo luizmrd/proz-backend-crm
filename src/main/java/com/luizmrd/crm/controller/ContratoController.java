@@ -7,6 +7,7 @@ import com.luizmrd.crm.dto.contrato.ContratoDto;
 import com.luizmrd.crm.dto.contrato.ContratoResponseDto;
 import com.luizmrd.crm.service.ContratoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class ContratoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarContrato(@RequestBody ContratoDto contratoDto) {
+    public void criarContrato(@Valid @RequestBody ContratoDto contratoDto) {
         contratoService.criarContrato(contratoDto);
     }
 

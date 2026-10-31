@@ -7,6 +7,7 @@ import com.luizmrd.crm.dto.auth.LoginResponseDto;
 import com.luizmrd.crm.dto.auth.UsuarioAutenticadoDto;
 import com.luizmrd.crm.service.AuthService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +25,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public ApiResponse<LoginResponseDto> login(@RequestBody LoginRequestDto request) {
+    public ApiResponse<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto request) {
         return ApiResponse.of(authService.login(request));
     }
 

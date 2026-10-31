@@ -6,6 +6,7 @@ import com.luizmrd.crm.dto.contatoemergencia.ContatoEmergenciaRequestDto;
 import com.luizmrd.crm.dto.contatoemergencia.ContatoEmergenciaResponseDto;
 import com.luizmrd.crm.service.ContatoEmergenciaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class ContatoEmergenciaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarContatoEmergencia(@RequestBody ContatoEmergenciaRequestDto contatoEmergencia) {
+    public void criarContatoEmergencia(@Valid @RequestBody ContatoEmergenciaRequestDto contatoEmergencia) {
         contatoEmergenciaService.criarContatoEmergencia(contatoEmergencia);
     }
 

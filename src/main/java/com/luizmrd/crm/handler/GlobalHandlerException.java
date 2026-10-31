@@ -7,9 +7,14 @@ import com.luizmrd.crm.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalHandlerException {
@@ -60,6 +65,20 @@ public class GlobalHandlerException {
                 "PARAMETRO_INVALIDO",
                 "Valor inválido para o parâmetro '" + ex.getName() + "': " + ex.getValue(),
                 null
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handlerMethodArgumentNotValid(MethodArgumentNotValidException ex){
+        Map<String, Object> details = new LinkedHashMap<>();
+        for (FieldError fieldError : ex.getBindingResult().getFieldErrors()) {
+            details.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        ErrorResponse resp = ErrorResponse.of(
+                "ERRO_VALIDACAO",
+                "Dados de entrada inválidos",
+                details
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resp);
     }

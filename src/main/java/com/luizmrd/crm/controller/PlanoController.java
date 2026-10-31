@@ -7,6 +7,7 @@ import com.luizmrd.crm.dto.plano.PlanoRequestDto;
 import com.luizmrd.crm.dto.plano.PlanoResponseDto;
 import com.luizmrd.crm.service.PlanoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -26,7 +27,7 @@ public class PlanoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarPlano(@RequestBody PlanoRequestDto plano){
+    public void criarPlano(@Valid @RequestBody PlanoRequestDto plano){
         planoService.criarPlano(plano);
     }
 

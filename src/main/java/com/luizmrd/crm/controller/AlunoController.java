@@ -10,6 +10,7 @@ import com.luizmrd.crm.dto.aluno.AlunoRiscoEvasaoResponseDto;
 import com.luizmrd.crm.dto.aluno.AlunoResumoResponseDto;
 import com.luizmrd.crm.service.AlunoService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -56,14 +57,14 @@ public class AlunoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void criarAluno(@RequestBody AlunoRequestDto aluno){
+    public void criarAluno(@Valid @RequestBody AlunoRequestDto aluno){
         alunoService.criarAluno(aluno);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void atualizarPerfilAluno(@PathVariable Long id,
-                                     @RequestBody AlunoPerfilAtualizarRequestDto alunoPerfilAtualizarRequestDto){
+                                     @Valid @RequestBody AlunoPerfilAtualizarRequestDto alunoPerfilAtualizarRequestDto){
         alunoService.atualizaAluno(id, alunoPerfilAtualizarRequestDto);
     }
 
