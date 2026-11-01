@@ -28,3 +28,9 @@ app:
     nome: ${ADMIN_NOME}
     email: ${ADMIN_EMAIL}
     senha: ${ADMIN_SENHA}
+  rate-limit:
+    enabled: ${RATE_LIMIT_ENABLED:true}
+    login-capacidade: ${RATE_LIMIT_LOGIN_CAPACIDADE:10}
+    login-janela-segundos: ${RATE_LIMIT_LOGIN_JANELA_SEGUNDOS:60}
+    api-capacidade: ${RATE_LIMIT_API_CAPACIDADE:100}
+    api-janela-segundos: ${RATE_LIMIT_API_JANELA_SEGUNDOS:60}
